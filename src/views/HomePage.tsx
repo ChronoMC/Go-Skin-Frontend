@@ -226,7 +226,7 @@ export default function HomePage() {
           WebkitBackgroundClip: 'text',
           WebkitTextFillColor: 'transparent',
         }}>
-          Corona Studio
+          测试标题
         </Typography>
           </Box>
           
@@ -309,7 +309,7 @@ export default function HomePage() {
           WebkitTextFillColor: 'transparent',
           fontSize: { xs: '2.5rem', md: '3rem' }
             }}>
-          CMFS 皮肤站
+          皮肤站
             </Typography>
             
             <Typography variant="h6" sx={{ 
@@ -318,7 +318,7 @@ export default function HomePage() {
           maxWidth: '500px',
           fontSize: { xs: '1rem', md: '1.25rem' }
             }}>
-          由 Corona Studio 开发的轻量皮肤站，旨在提供更高的性能和更轻量的 Yggdrasil API 鉴权认证；同时也是部分 CMFS 服务器的账号验证系统。
+          简洁测试中
             </Typography>
             
             <Box sx={{ display: 'flex', gap: 2, flexWrap: 'wrap' }}>
