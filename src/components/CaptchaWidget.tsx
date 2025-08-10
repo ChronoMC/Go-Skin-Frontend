@@ -9,14 +9,16 @@ import { getConfig } from '@/apis/apis';
 
 interface prop {
     onSuccess: ((token: string) => void)
+    hideRefreshButton?: boolean; 
 }
 
 export type refType = {
     reload: () => void
 }
 
-
-const CaptchaWidget = forwardRef<refType, prop>(({ onSuccess }, ref) => {
+const CaptchaWidget = forwardRef<refType, prop>((props, ref) => {
+    // 解构所有props
+    const { onSuccess, hideRefreshButton = false } = props;
     const Turnstileref = useRef<TurnstileInstance>(null)
     const [key, setKey] = useState(1)
     const { data, error, loading } = useRequest(getConfig, {
@@ -32,13 +34,12 @@ const CaptchaWidget = forwardRef<refType, prop>(({ onSuccess }, ref) => {
             }
         }
     })
+    
     useEffect(() => {
-        if (data?.captcha?.type != "turnstile") {
+        if (data?.captcha?.type !== "turnstile") {
             onSuccess("ok")
-            return
         }
     }, [data?.captcha?.type, onSuccess])
-
 
     if (error) {
         console.warn(error)
@@ -48,14 +49,23 @@ const CaptchaWidget = forwardRef<refType, prop>(({ onSuccess }, ref) => {
         return <Skeleton variant="rectangular" width={300} height={65} />
     }
 
-    if (data?.captcha.type == "") {
+    if (data?.captcha.type === "") {
         return <></>
     }
 
     return (
         <>
-            <Turnstile siteKey={data?.captcha?.siteKey ?? ""} key={key} onSuccess={onSuccess} ref={Turnstileref} scriptOptions={{ async: true }} />
-            <Button onClick={() => setKey(key + 1)}>刷新验证码</Button>
+            <Turnstile 
+                siteKey={data?.captcha?.siteKey ?? ""} 
+                key={key} 
+                onSuccess={onSuccess} 
+                ref={Turnstileref} 
+                scriptOptions={{ async: true }} 
+            />
+            {/* 根据hideRefreshButton决定是否显示按钮 */}
+            {!hideRefreshButton && (
+                <Button onClick={() => setKey(key + 1)}>刷新验证码</Button>
+            )}
         </>
     )
 })

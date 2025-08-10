@@ -1,16 +1,14 @@
 import * as React from 'react';
 import { useState } from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+import { 
+  Box, Button, TextField, Link, Grid, Avatar, 
+  Typography, Container, Snackbar, Alert, Fade, Slide,
+  IconButton
+} from '@mui/material';
+import { 
+  LockOutlined, Brightness4, Brightness7,
+  ArrowForward
+} from '@mui/icons-material';
 import { useSetAtom } from 'jotai';
 import { token, user } from '@/store/store';
 import { getConfig, login } from '@/apis/apis';
@@ -24,25 +22,25 @@ import { ApiErr } from '@/apis/error';
 import { useRequest } from 'ahooks';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
-import Fade from '@mui/material/Fade';
-import Slide from '@mui/material/Slide';
 import { motion } from 'framer-motion';
 
-const theme = createTheme({
+// 使用与主页相同的主题
+const lightTheme = createTheme({
   palette: {
     primary: {
-      main: '#6366f1',
-      contrastText: '#ffffff',
+      main: '#ffc107',
+      contrastText: '#000000',
     },
     secondary: {
-      main: '#8b5cf6',
+      main: '#ff9800',
     },
     background: {
-      default: 'linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%)',
+      default: '#ffffff',
+      paper: '#ffffff',
     },
     text: {
-      primary: '#1e293b',
-      secondary: '#64748b',
+      primary: '#212121',
+      secondary: '#424242',
     },
   },
   typography: {
@@ -68,9 +66,12 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          background: 'linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%)',
+          background: '#ffffff',
           backgroundAttachment: 'fixed',
           minHeight: '100vh',
+          overflow: 'hidden',
+          margin: 0,
+          padding: 0,
         },
       },
     },
@@ -82,46 +83,27 @@ const theme = createTheme({
           textTransform: 'none',
           padding: '12px 24px',
           transition: 'all 0.3s ease',
-          boxShadow: '0 4px 6px rgba(79, 70, 229, 0.1)',
+          boxShadow: '0 4px 6px rgba(255, 179, 0, 0.2)',
           '&:hover': {
             transform: 'translateY(-2px)',
-            boxShadow: '0 6px 12px rgba(79, 70, 229, 0.2)',
+            boxShadow: '0 6px 12px rgba(255, 179, 0, 0.3)',
           },
           '&.Mui-disabled': {
             opacity: 0.7,
           },
         },
         contained: {
-          background: 'linear-gradient(to right, #6366f1, #8b5cf6)',
+          background: 'linear-gradient(to right, #ffc107, #ff9800)',
           '&:hover': {
-            background: 'linear-gradient(to right, #4f46e5, #7c3aed)',
+            background: 'linear-gradient(to right, #ffb300, #fb8c00)',
           },
         },
-      },
-    },
-    MuiTextField: {
-      styleOverrides: {
-        root: {
-          '& .MuiOutlinedInput-root': {
-            borderRadius: '12px',
-            backgroundColor: 'rgba(255, 255, 255, 0.7)',
-            '& fieldset': {
-              borderColor: 'rgba(203, 213, 225, 0.5)',
-            },
-            '&:hover fieldset': {
-              borderColor: '#c7d2fe',
-            },
-            '&.Mui-focused fieldset': {
-              borderWidth: '1px',
-              borderColor: '#818cf8',
-            },
-          },
-          '& .MuiInputLabel-root': {
-            color: '#64748b',
-            '&.Mui-focused': {
-              color: '#6366f1',
-              fontWeight: 500,
-            },
+        outlined: {
+          borderColor: 'rgba(255, 179, 0, 0.7)',
+          color: '#ff9800',
+          '&:hover': {
+            borderColor: '#ff9800',
+            backgroundColor: 'rgba(255, 179, 0, 0.1)',
           },
         },
       },
@@ -131,31 +113,49 @@ const theme = createTheme({
         root: {
           borderRadius: '24px',
           backdropFilter: 'blur(12px)',
-          backgroundColor: 'rgba(255, 255, 255, 0.65)',
-          border: '1px solid rgba(255, 255, 255, 0.5)',
-          boxShadow: '0 8px 32px rgba(31, 41, 55, 0.1)',
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          border: '1px solid rgba(255, 179, 0, 0.3)',
+          boxShadow: '0 8px 32px rgba(33, 33, 33, 0.1)',
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            transform: 'translateY(-5px)',
+            boxShadow: '0 12px 40px rgba(33, 33, 33, 0.15)',
+          },
         },
       },
     },
     MuiAvatar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#e0e7ff',
-          color: '#6366f1',
-          boxShadow: '0 4px 12px rgba(99, 102, 241, 0.15)',
+          backgroundColor: '#fff9c4',
+          color: '#ff9800',
+          boxShadow: '0 4px 12px rgba(255, 179, 0, 0.2)',
         },
       },
     },
-    MuiLink: {
+    MuiTextField: {
       styleOverrides: {
         root: {
-          fontWeight: 500,
-          color: '#4f46e5',
-          textDecoration: 'none',
-          transition: 'all 0.2s ease',
-          '&:hover': {
-            color: '#7c3aed',
-            textDecoration: 'underline',
+          '& .MuiOutlinedInput-root': {
+            borderRadius: '12px',
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
+            '& fieldset': {
+              borderColor: 'rgba(255, 179, 0, 0.5)',
+            },
+            '&:hover fieldset': {
+              borderColor: '#ffd54f',
+            },
+            '&.Mui-focused fieldset': {
+              borderWidth: '1px',
+              borderColor: '#ffc107',
+            },
+          },
+          '& .MuiInputLabel-root': {
+            color: '#757575',
+            '&.Mui-focused': {
+              color: '#ff9800',
+              fontWeight: 500,
+            },
           },
         },
       },
@@ -165,8 +165,161 @@ const theme = createTheme({
         root: {
           borderRadius: '12px',
           backdropFilter: 'blur(10px)',
-          backgroundColor: 'rgba(255, 255, 255, 0.85)',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+        },
+      },
+    },
+  },
+});
+
+// 深色主题
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#ffd54f',
+      contrastText: '#000000',
+    },
+    secondary: {
+      main: '#ffb300',
+    },
+    background: {
+      default: 'linear-gradient(135deg, #212121 0%, #424242 100%)',
+      paper: 'rgba(33, 33, 33, 0.9)',
+    },
+    text: {
+      primary: '#f5f5f5',
+      secondary: '#e0e0e0',
+    },
+  },
+  typography: {
+    fontFamily: [
+      'Inter',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    h5: {
+      fontWeight: 700,
+      letterSpacing: '-0.5px',
+    },
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          background: 'linear-gradient(135deg, #212121 0%, #424242 100%)',
+          backgroundAttachment: 'fixed',
+          minHeight: '100vh',
+          overflow: 'hidden',
+          margin: 0,
+          padding: 0,
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '12px',
+          fontWeight: 600,
+          textTransform: 'none',
+          padding: '12px 24px',
+          transition: 'all 0.3s ease',
+          boxShadow: '0 4px 6px rgba(255, 179, 0, 0.2)',
+          '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: '0 6px 12px rgba(255, 179, 0, 0.3)',
+          },
+          '&.Mui-disabled': {
+            opacity: 0.7,
+          },
+        },
+        contained: {
+          background: 'linear-gradient(to right, #ffc107, #ff9800)',
+          '&:hover': {
+            background: 'linear-gradient(to right, #ffb300, #fb8c00)',
+          },
+        },
+        outlined: {
+          borderColor: 'rgba(255, 179, 0, 0.5)',
+          color: '#ffd54f',
+          '&:hover': {
+            borderColor: '#ffd54f',
+            backgroundColor: 'rgba(255, 179, 0, 0.1)',
+          },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: '24px',
+          backdropFilter: 'blur(12px)',
+          backgroundColor: 'rgba(33, 33, 33, 0.85)',
+          border: '1px solid rgba(255, 179, 0, 0.2)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+          transition: 'all 0.3s ease',
+          '&:hover': {
+            transform: 'translateY(-5px)',
+            boxShadow: '0 12px 40px rgba(0, 0, 0, 0.3)',
+          },
+        },
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(255, 213, 79, 0.2)',
+          color: '#ffd54f',
+          boxShadow: '0 4px 12px rgba(255, 179, 0, 0.2)',
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-root': {
+            borderRadius: '12px',
+            backgroundColor: 'rgba(66, 66, 66, 0.7)',
+            '& fieldset': {
+              borderColor: 'rgba(255, 179, 0, 0.3)',
+            },
+            '&:hover fieldset': {
+              borderColor: '#ffd54f',
+            },
+            '&.Mui-focused fieldset': {
+              borderWidth: '1px',
+              borderColor: '#ffc107',
+            },
+          },
+          '& .MuiInputLabel-root': {
+            color: '#bdbdbd',
+            '&.Mui-focused': {
+              color: '#ffc107',
+              fontWeight: 500,
+            },
+          },
+          '& .MuiInputBase-input': {
+            color: '#f5f5f5',
+          },
+        },
+      },
+    },
+    MuiAlert: {
+      styleOverrides: {
+        root: {
+          borderRadius: '12px',
+          backdropFilter: 'blur(10px)',
+          backgroundColor: 'rgba(33, 33, 33, 0.9)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
         },
       },
     },
@@ -188,6 +341,28 @@ export default function SignIn() {
   const [captchaToken, setCaptchaToken] = useState("");
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
+  const [darkMode, setDarkMode] = useState(false);
+  const currentTheme = darkMode ? darkTheme : lightTheme;
+
+  // 监听系统主题变化
+  React.useEffect(() => {
+    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
+      setDarkMode(e.matches);
+    };
+
+    const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    setDarkMode(systemThemeQuery.matches);
+    
+    systemThemeQuery.addEventListener('change', handleSystemThemeChange);
+    
+    return () => {
+      systemThemeQuery.removeEventListener('change', handleSystemThemeChange);
+    };
+  }, []);
+
+  const toggleThemeMode = () => {
+    setDarkMode(!darkMode);
+  };
 
   const server = useRequest(getConfig, {
     cacheKey: "/api/v1/config",
@@ -244,17 +419,16 @@ export default function SignIn() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={currentTheme}>
       <CssBaseline />
       <Box
         sx={{
           minHeight: '100vh',
           display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          py: 4,
+          flexDirection: 'column',
           position: 'relative',
           overflow: 'hidden',
+          backgroundColor: darkMode ? 'inherit' : '#ffffff',
         }}
       >
         {/* 装饰性背景元素 */}
@@ -265,7 +439,9 @@ export default function SignIn() {
           width: '400px',
           height: '400px',
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%)',
+          background: darkMode 
+            ? 'radial-gradient(circle, rgba(255, 213, 79, 0.1) 0%, rgba(255, 179, 0, 0.15) 100%)' 
+            : 'radial-gradient(circle, rgba(255, 193, 7, 0.15) 0%, rgba(255, 152, 0, 0.1) 100%)',
           zIndex: 0,
         }} />
         
@@ -276,255 +452,298 @@ export default function SignIn() {
           width: '500px',
           height: '500px',
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.15) 100%)',
+          background: darkMode 
+            ? 'radial-gradient(circle, rgba(255, 179, 0, 0.1) 0%, rgba(255, 213, 79, 0.15) 100%)'
+            : 'radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, rgba(255, 193, 7, 0.15) 100%)',
           zIndex: 0,
         }} />
-        
-        <Container maxWidth="xs" component="main" sx={{ position: 'relative', zIndex: 1 }}>
-          <Fade in={true} timeout={600}>
-            <Box
-              sx={{
-                p: { xs: 3, sm: 4, md: 5 },
-                borderRadius: '24px',
+
+        {/* 导航栏 */}
+        <Box sx={{
+          p: 3,
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          position: 'relative',
+          zIndex: 1,
+          backgroundColor: darkMode ? 'inherit' : '#ffffff',
+        }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Avatar sx={{ 
+              bgcolor: 'primary.main', 
+              mr: 1.5,
+              color: darkMode ? '#000' : '#000'
+            }}>
+              <LockOutlined />
+            </Avatar>
+            <Typography variant="h6" sx={{ 
+              fontWeight: 800,
+              background: 'linear-gradient(to right, #ffc107, #ff9800)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+            }}>
+              Corona Studio
+            </Typography>
+          </Box>
+          
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            <IconButton 
+              onClick={toggleThemeMode}
+              sx={{ 
+                borderRadius: '12px',
                 backdropFilter: 'blur(12px)',
-                backgroundColor: 'rgba(255, 255, 255, 0.65)',
-                border: '1px solid rgba(255, 255, 255, 0.5)',
-                boxShadow: '0 20px 50px rgba(31, 41, 55, 0.12)',
-                position: 'relative',
-                overflow: 'hidden',
+                backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.7)',
+                border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 179, 0, 0.3)',
+                color: darkMode ? '#ffd54f' : '#ff9800',
+                transition: 'all 0.3s ease',
+                '&:hover': {
+                  backgroundColor: darkMode ? 'rgba(66, 66, 66, 0.7)' : 'rgba(255, 255, 255, 0.9)',
+                }
               }}
             >
-              {/* 装饰性光泽效果 */}
-              <Box sx={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                height: '4px',
-                background: 'linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent)',
-              }} />
-              
-              <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
+              {darkMode ? <Brightness7 /> : <Brightness4 />}
+            </IconButton>
+          </Box>
+        </Box>
+        
+        {/* 主内容 */}
+        <Container maxWidth="sm" sx={{ 
+          flex: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          position: 'relative',
+          zIndex: 1,
+          py: 4,
+        }}>
+          <AnimatedBox
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            sx={{
+              p: { xs: 3, sm: 4, md: 5 },
+              borderRadius: '24px',
+              backdropFilter: 'blur(12px)',
+              backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.8)',
+              border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 179, 0, 0.3)',
+              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.12)',
+              position: 'relative',
+              overflow: 'hidden',
+            }}
+          >
+            {/* 装饰性光泽效果 */}
+            <Box sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '4px',
+              background: darkMode 
+                ? 'linear-gradient(to right, transparent, rgba(255, 213, 79, 0.5), transparent)'
+                : 'linear-gradient(to right, transparent, rgba(255, 193, 7, 0.7), transparent)',
+            }} />
+            
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <AnimatedBox
+                animate={{ 
+                  rotate: [0, 5, 0, -5, 0],
+                  scale: [1, 1.05, 1]
+                }}
+                transition={{ 
+                  duration: 0.8,
+                  ease: "easeInOut",
+                  times: [0, 0.2, 0.5, 0.8, 1]
                 }}
               >
-                <AnimatedBox
-                  animate={{ 
-                    rotate: [0, 5, 0, -5, 0],
-                    scale: [1, 1.05, 1]
-                  }}
-                  transition={{ 
-                    duration: 0.8,
-                    ease: "easeInOut",
-                    times: [0, 0.2, 0.5, 0.8, 1]
+                <Avatar
+                  sx={{
+                    m: 2,
+                    width: 72,
+                    height: 72,
+                    bgcolor: 'transparent',
+                    position: 'relative',
                   }}
                 >
-                  <Avatar
+                  <Box
                     sx={{
-                      m: 2,
-                      width: 72,
-                      height: 72,
-                      bgcolor: 'transparent',
-                      position: 'relative',
+                      position: 'absolute',
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 152, 0, 0.2) 100%)',
+                      backdropFilter: 'blur(4px)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
                     }}
                   >
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        width: '100%',
-                        height: '100%',
-                        borderRadius: '50%',
-                        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)',
-                        backdropFilter: 'blur(4px)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <LockOutlinedIcon 
-                        sx={{ 
-                          fontSize: 36, 
-                          color: '#6366f1',
-                          filter: 'drop-shadow(0 2px 4px rgba(99, 102, 241, 0.3))'
-                        }} 
-                      />
-                    </Box>
-                  </Avatar>
+                    <LockOutlined 
+                      sx={{ 
+                        fontSize: 36, 
+                        color: '#ff9800',
+                        filter: 'drop-shadow(0 2px 4px rgba(255, 152, 0, 0.3))'
+                      }} 
+                    />
+                  </Box>
+                </Avatar>
+              </AnimatedBox>
+              
+              <Typography
+                component="h1"
+                variant="h5"
+                sx={{
+                  mb: 1,
+                  fontWeight: 800,
+                  background: 'linear-gradient(to right, #ffc107, #ff9800)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  letterSpacing: '-0.5px',
+                }}
+              >
+                欢迎回来
+              </Typography>
+              
+              <Typography variant="body2" sx={{ 
+                color: 'text.secondary',
+                mb: 3,
+                textAlign: 'center',
+                maxWidth: '300px',
+              }}>
+                请使用您的账号登录系统
+              </Typography>
+              
+              <Box
+                component="form"
+                onSubmit={handleSubmit}
+                noValidate
+                sx={{ width: '100%', mt: 1 }}
+              >
+                <AnimatedBox
+                  animate={{
+                    y: emailFocused ? -5 : 0,
+                  }}
+                  transition={{ type: "spring", stiffness: 300 }}
+                >
+                  <CheckInput
+                    ref={(dom) => {
+                      dom && checkList.current.set("1", dom)
+                    }}
+                    checkList={[
+                      {
+                        errMsg: "需为邮箱",
+                        reg: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+                      }
+                    ]}
+                    margin="normal"
+                    fullWidth
+                    id="email"
+                    label="邮箱"
+                    name="email"
+                    autoComplete="email"
+                    autoFocus
+                    sx={{ mb: 2 }}
+                    onFocus={() => setEmailFocused(true)}
+                    onBlur={() => setEmailFocused(false)}
+                  />
                 </AnimatedBox>
                 
-                <Typography
-                  component="h1"
-                  variant="h5"
-                  sx={{
-                    mb: 1,
-                    fontWeight: 800,
-                    background: 'linear-gradient(to right, #6366f1, #8b5cf6)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    letterSpacing: '-0.5px',
+                <AnimatedBox
+                  animate={{
+                    y: passwordFocused ? -5 : 0,
                   }}
+                  transition={{ type: "spring", stiffness: 300 }}
                 >
-                  欢迎回来
-                </Typography>
+                  <TextField
+                    margin="normal"
+                    fullWidth
+                    name="password"
+                    label="密码"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    sx={{ mb: 2 }}
+                    onFocus={() => setPasswordFocused(true)}
+                    onBlur={() => setPasswordFocused(false)}
+                  />
+                </AnimatedBox>
                 
-                <Typography variant="body2" sx={{ 
-                  color: 'text.secondary',
-                  mb: 3,
-                  textAlign: 'center',
-                  maxWidth: '300px',
-                }}>
-                  请使用您的账号登录系统
-                </Typography>
+                <Box sx={{ mt: 2, mb: 2 }}>
+                  <CaptchaWidget ref={captchaRef} onSuccess={setCaptchaToken} />
+                </Box>
                 
-                <Box
-                  component="form"
-                  onSubmit={handleSubmit}
-                  noValidate
-                  sx={{ width: '100%', mt: 1 }}
+                <AnimatedBox
+                  whileHover={{ scale: 1.01 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  <AnimatedBox
-                    animate={{
-                      y: emailFocused ? -5 : 0,
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    disabled={loading}
+                    sx={{
+                      mt: 2,
+                      mb: 3,
+                      py: 1.5,
+                      fontSize: '1rem',
+                      fontWeight: 600,
+                      borderRadius: '12px',
+                      position: 'relative',
+                      overflow: 'hidden',
                     }}
-                    transition={{ type: "spring", stiffness: 300 }}
                   >
-                    <CheckInput
-                      ref={(dom) => {
-                        dom && checkList.current.set("1", dom)
-                      }}
-                      checkList={[
-                        {
-                          errMsg: "需为邮箱",
-                          reg: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-                        }
-                      ]}
-                      margin="normal"
-                      fullWidth
-                      id="email"
-                      label="邮箱"
-                      name="email"
-                      autoComplete="email"
-                      autoFocus
-                      sx={{ mb: 2 }}
-                      onFocus={() => setEmailFocused(true)}
-                      onBlur={() => setEmailFocused(false)}
-                    />
-                  </AnimatedBox>
-                  
-                  <AnimatedBox
-                    animate={{
-                      y: passwordFocused ? -5 : 0,
-                    }}
-                    transition={{ type: "spring", stiffness: 300 }}
-                  >
-                    <TextField
-                      margin="normal"
-                      fullWidth
-                      name="password"
-                      label="密码"
-                      type="password"
-                      id="password"
-                      autoComplete="current-password"
-                      sx={{ mb: 2 }}
-                      onFocus={() => setPasswordFocused(true)}
-                      onBlur={() => setPasswordFocused(false)}
-                    />
-                  </AnimatedBox>
-                  
-                  <Box sx={{ mt: 2, mb: 2 }}>
-                    <CaptchaWidget ref={captchaRef} onSuccess={setCaptchaToken} />
-                  </Box>
-                  
-                  <AnimatedBox
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
-                  >
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      disabled={loading}
-                      sx={{
-                        mt: 2,
-                        mb: 3,
-                        py: 1.5,
-                        fontSize: '1rem',
-                        fontWeight: 600,
-                        borderRadius: '12px',
-                        position: 'relative',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      {loading ? (
+                    {loading ? (
+                      <Box 
+                        component="span"
+                        sx={{
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
                         <Box 
-                          component="span"
                           sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
+                            width: 20,
+                            height: 20,
+                            borderRadius: '50%',
+                            border: '2px solid rgba(255,255,255,0.3)',
+                            borderTopColor: 'white',
+                            animation: 'spin 1s linear infinite',
+                            mr: 1.5,
+                            '@keyframes spin': {
+                              '0%': { transform: 'rotate(0deg)' },
+                              '100%': { transform: 'rotate(360deg)' },
+                            }
                           }}
-                        >
-                          <Box 
-                            sx={{
-                              width: 20,
-                              height: 20,
-                              borderRadius: '50%',
-                              border: '2px solid rgba(255,255,255,0.3)',
-                              borderTopColor: 'white',
-                              animation: 'spin 1s linear infinite',
-                              mr: 1.5,
-                              '@keyframes spin': {
-                                '0%': { transform: 'rotate(0deg)' },
-                                '100%': { transform: 'rotate(360deg)' },
-                              }
-                            }}
-                          />
-                          登录中...
-                        </Box>
-                      ) : '登录'}
-                      
-                      {/* 按钮光泽效果 */}
-                      <Box sx={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        right: 0,
-                        height: '40%',
-                        background: 'linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)',
-                        pointerEvents: 'none',
-                      }} />
-                    </Button>
-                  </AnimatedBox>
-                  
-                  <Grid container justifyContent="space-between" sx={{ mt: 1 }}>
-                    <Grid item>
-                      {server.data?.NeedEmail && (
-                        <Link
-                          component={RouterLink}
-                          to="/forgot_email"
-                          variant="body2"
-                          sx={{
-                            display: 'block',
-                            py: 1,
-                            px: 1.5,
-                            borderRadius: '8px',
-                            transition: 'all 0.2s ease',
-                            '&:hover': {
-                              backgroundColor: 'rgba(199, 210, 254, 0.2)',
-                            },
-                          }}
-                        >
-                          忘记密码?
-                        </Link>
-                      )}
-                    </Grid>
-                    <Grid item>
+                        />
+                        登录中...
+                      </Box>
+                    ) : '登录'}
+                    
+                    {/* 按钮光泽效果 */}
+                    <Box sx={{
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      right: 0,
+                      height: '40%',
+                      background: 'linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)',
+                      pointerEvents: 'none',
+                    }} />
+                  </Button>
+                </AnimatedBox>
+                
+                <Grid container justifyContent="space-between" sx={{ mt: 1 }}>
+                  <Grid item>
+                    {server.data?.NeedEmail && (
                       <Link
                         component={RouterLink}
-                        to="/register"
+                        to="/forgot_email"
                         variant="body2"
                         sx={{
                           display: 'block',
@@ -533,18 +752,37 @@ export default function SignIn() {
                           borderRadius: '8px',
                           transition: 'all 0.2s ease',
                           '&:hover': {
-                            backgroundColor: 'rgba(199, 210, 254, 0.2)',
+                            backgroundColor: 'rgba(255, 179, 0, 0.1)',
                           },
                         }}
                       >
-                        注册新账号
+                        忘记密码?
                       </Link>
-                    </Grid>
+                    )}
                   </Grid>
-                </Box>
+                  <Grid item>
+                    <Link
+                      component={RouterLink}
+                      to="/register"
+                      variant="body2"
+                      sx={{
+                        display: 'block',
+                        py: 1,
+                        px: 1.5,
+                        borderRadius: '8px',
+                        transition: 'all 0.2s ease',
+                        '&:hover': {
+                          backgroundColor: 'rgba(255, 179, 0, 0.1)',
+                        },
+                      }}
+                    >
+                      注册新账号
+                    </Link>
+                  </Grid>
+                </Grid>
               </Box>
             </Box>
-          </Fade>
+          </AnimatedBox>
           
           <Snackbar
             open={err !== ""}
@@ -560,9 +798,10 @@ export default function SignIn() {
               sx={{ 
                 width: '100%',
                 backdropFilter: 'blur(10px)',
-                backgroundColor: 'rgba(255, 255, 255, 0.85)',
-                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+                backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
                 borderRadius: '12px',
+                color: darkMode ? '#f5f5f5' : '#212121'
               }}
             >
               {err}
@@ -571,6 +810,19 @@ export default function SignIn() {
           
           {loading && <Loading />}
         </Container>
+        
+        {/* 页脚 */}
+        <Box sx={{ 
+          p: 3, 
+          textAlign: 'center',
+          position: 'relative',
+          zIndex: 1,
+          backgroundColor: darkMode ? 'inherit' : '#ffffff',
+        }}>
+          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+            © 2025 Corona Studio 保留所有权利
+          </Typography>
+        </Box>
       </Box>
     </ThemeProvider>
   );
