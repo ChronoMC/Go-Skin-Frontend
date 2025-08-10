@@ -1061,7 +1061,6 @@ export default function HomePage() {
                           <CaptchaWidget 
                             ref={captchaRef} 
                             onSuccess={setCaptchaToken} 
-                            hideRefreshButton
                           />
                         </Box>
                         
