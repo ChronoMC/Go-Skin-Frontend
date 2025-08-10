@@ -1,8 +1,7 @@
 import { 
   Box, Button, Typography, Container,
-  TextField, Grid, Avatar, Paper, 
-  Snackbar, Alert, Link
-} from '@mui/material';
+  TextField, Grid, Avatar, 
+  Snackbar, Alert} from '@mui/material';
 import { LockOutlined } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';

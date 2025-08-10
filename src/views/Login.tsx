@@ -2,13 +2,11 @@ import * as React from 'react';
 import { useState } from 'react';
 import { 
   Box, Button, TextField, Link, Grid, Avatar, 
-  Typography, Container, Snackbar, Alert, Fade, Slide,
+  Typography, Container, Snackbar, Alert, Slide,
   IconButton
 } from '@mui/material';
 import { 
-  LockOutlined, Brightness4, Brightness7,
-  ArrowForward
-} from '@mui/icons-material';
+  LockOutlined, Brightness4, Brightness7} from '@mui/icons-material';
 import { useSetAtom } from 'jotai';
 import { token, user } from '@/store/store';
 import { getConfig, login } from '@/apis/apis';

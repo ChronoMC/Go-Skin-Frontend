@@ -1,6 +1,6 @@
 import { 
   Box, Button, Typography, Container,
-  Link, Avatar, Paper, IconButton
+  Link, Avatar, IconButton
 } from '@mui/material';
 import { 
   ArrowBack, 
