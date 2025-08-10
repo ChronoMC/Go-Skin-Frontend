@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { 
   Box, Button, TextField, Link, Grid, Avatar, 
   Typography, Container, Snackbar, Alert, Slide,
-  IconButton
+  IconButton, useMediaQuery
 } from '@mui/material';
 import { 
   LockOutlined, Brightness4, Brightness7} from '@mui/icons-material';
@@ -67,7 +67,7 @@ const lightTheme = createTheme({
           background: '#ffffff',
           backgroundAttachment: 'fixed',
           minHeight: '100vh',
-          overflow: 'hidden',
+          overflowX: 'hidden',
           margin: 0,
           padding: 0,
         },
@@ -217,7 +217,7 @@ const darkTheme = createTheme({
           background: 'linear-gradient(135deg, #212121 0%, #424242 100%)',
           backgroundAttachment: 'fixed',
           minHeight: '100vh',
-          overflow: 'hidden',
+          overflowX: 'hidden',
           margin: 0,
           padding: 0,
         },
@@ -341,6 +341,7 @@ export default function SignIn() {
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const currentTheme = darkMode ? darkTheme : lightTheme;
+  const isMobile = useMediaQuery(currentTheme.breakpoints.down('sm'));
 
   // 监听系统主题变化
   React.useEffect(() => {
@@ -429,36 +430,44 @@ export default function SignIn() {
           backgroundColor: darkMode ? 'inherit' : '#ffffff',
         }}
       >
-        {/* 装饰性背景元素 */}
-        <Box sx={{
-          position: 'absolute',
-          top: '-10%',
-          right: '-10%',
-          width: '400px',
-          height: '400px',
-          borderRadius: '50%',
-          background: darkMode 
-            ? 'radial-gradient(circle, rgba(255, 213, 79, 0.1) 0%, rgba(255, 179, 0, 0.15) 100%)' 
-            : 'radial-gradient(circle, rgba(255, 193, 7, 0.15) 0%, rgba(255, 152, 0, 0.1) 100%)',
-          zIndex: 0,
-        }} />
-        
-        <Box sx={{
-          position: 'absolute',
-          bottom: '-15%',
-          left: '-5%',
-          width: '500px',
-          height: '500px',
-          borderRadius: '50%',
-          background: darkMode 
-            ? 'radial-gradient(circle, rgba(255, 179, 0, 0.1) 0%, rgba(255, 213, 79, 0.15) 100%)'
-            : 'radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, rgba(255, 193, 7, 0.15) 100%)',
-          zIndex: 0,
-        }} />
+        {/* 装饰性背景元素 - 修复溢出问题 */}
+        {!isMobile && (
+          <>
+            <Box sx={{
+              position: 'absolute',
+              top: '-10%',
+              right: '-10%',
+              width: '30vw',
+              height: '30vw',
+              maxWidth: 400,
+              maxHeight: 400,
+              borderRadius: '50%',
+              background: darkMode 
+                ? 'radial-gradient(circle, rgba(255, 213, 79, 0.1) 0%, rgba(255, 179, 0, 0.15) 100%)' 
+                : 'radial-gradient(circle, rgba(255, 193, 7, 0.15) 0%, rgba(255, 152, 0, 0.1) 100%)',
+              zIndex: 0,
+            }} />
+            
+            <Box sx={{
+              position: 'absolute',
+              bottom: '-15%',
+              left: '-5%',
+              width: '40vw',
+              height: '40vw',
+              maxWidth: 500,
+              maxHeight: 500,
+              borderRadius: '50%',
+              background: darkMode 
+                ? 'radial-gradient(circle, rgba(255, 179, 0, 0.1) 0%, rgba(255, 213, 79, 0.15) 100%)'
+                : 'radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, rgba(255, 193, 7, 0.15) 100%)',
+              zIndex: 0,
+            }} />
+          </>
+        )}
 
         {/* 导航栏 */}
         <Box sx={{
-          p: 3,
+          p: 2,
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -470,15 +479,18 @@ export default function SignIn() {
             <Avatar sx={{ 
               bgcolor: 'primary.main', 
               mr: 1.5,
-              color: darkMode ? '#000' : '#000'
+              color: darkMode ? '#000' : '#000',
+              width: 36,
+              height: 36
             }}>
-              <LockOutlined />
+              <LockOutlined fontSize="small" />
             </Avatar>
             <Typography variant="h6" sx={{ 
               fontWeight: 800,
               background: 'linear-gradient(to right, #ffc107, #ff9800)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
+              fontSize: isMobile ? '1rem' : '1.25rem'
             }}>
               Corona Studio
             </Typography>
@@ -487,8 +499,9 @@ export default function SignIn() {
           <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
             <IconButton 
               onClick={toggleThemeMode}
+              size="small"
               sx={{ 
-                borderRadius: '12px',
+                borderRadius: '8px',
                 backdropFilter: 'blur(12px)',
                 backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.7)',
                 border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 179, 0, 0.3)',
@@ -499,27 +512,32 @@ export default function SignIn() {
                 }
               }}
             >
-              {darkMode ? <Brightness7 /> : <Brightness4 />}
+              {darkMode ? <Brightness7 fontSize="small" /> : <Brightness4 fontSize="small" />}
             </IconButton>
           </Box>
         </Box>
         
         {/* 主内容 */}
-        <Container maxWidth="sm" sx={{ 
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          position: 'relative',
-          zIndex: 1,
-          py: 4,
-        }}>
+        <Container 
+          maxWidth="sm" 
+          sx={{ 
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            position: 'relative',
+            zIndex: 1,
+            py: isMobile ? 2 : 4,
+            px: 2,
+            overflow: 'auto'
+          }}
+        >
           <AnimatedBox
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
             sx={{
-              p: { xs: 3, sm: 4, md: 5 },
+              p: isMobile ? 2 : 4,
               borderRadius: '24px',
               backdropFilter: 'blur(12px)',
               backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.8)',
@@ -561,9 +579,9 @@ export default function SignIn() {
               >
                 <Avatar
                   sx={{
-                    m: 2,
-                    width: 72,
-                    height: 72,
+                    m: 1,
+                    width: isMobile ? 56 : 72,
+                    height: isMobile ? 56 : 72,
                     bgcolor: 'transparent',
                     position: 'relative',
                   }}
@@ -583,7 +601,7 @@ export default function SignIn() {
                   >
                     <LockOutlined 
                       sx={{ 
-                        fontSize: 36, 
+                        fontSize: isMobile ? 28 : 36, 
                         color: '#ff9800',
                         filter: 'drop-shadow(0 2px 4px rgba(255, 152, 0, 0.3))'
                       }} 
@@ -602,6 +620,7 @@ export default function SignIn() {
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   letterSpacing: '-0.5px',
+                  fontSize: isMobile ? '1.5rem' : '1.75rem'
                 }}
               >
                 欢迎回来
@@ -612,6 +631,7 @@ export default function SignIn() {
                 mb: 3,
                 textAlign: 'center',
                 maxWidth: '300px',
+                fontSize: isMobile ? '0.875rem' : '1rem'
               }}>
                 请使用您的账号登录系统
               </Typography>
@@ -646,6 +666,7 @@ export default function SignIn() {
                     autoComplete="email"
                     autoFocus
                     sx={{ mb: 2 }}
+                    size={isMobile ? 'small' : 'medium'}
                     onFocus={() => setEmailFocused(true)}
                     onBlur={() => setEmailFocused(false)}
                   />
@@ -666,6 +687,7 @@ export default function SignIn() {
                     id="password"
                     autoComplete="current-password"
                     sx={{ mb: 2 }}
+                    size={isMobile ? 'small' : 'medium'}
                     onFocus={() => setPasswordFocused(true)}
                     onBlur={() => setPasswordFocused(false)}
                   />
@@ -687,8 +709,8 @@ export default function SignIn() {
                     sx={{
                       mt: 2,
                       mb: 3,
-                      py: 1.5,
-                      fontSize: '1rem',
+                      py: isMobile ? 1 : 1.5,
+                      fontSize: isMobile ? '0.875rem' : '1rem',
                       fontWeight: 600,
                       borderRadius: '12px',
                       position: 'relative',
@@ -706,13 +728,13 @@ export default function SignIn() {
                       >
                         <Box 
                           sx={{
-                            width: 20,
-                            height: 20,
+                            width: 16,
+                            height: 16,
                             borderRadius: '50%',
                             border: '2px solid rgba(255,255,255,0.3)',
                             borderTopColor: 'white',
                             animation: 'spin 1s linear infinite',
-                            mr: 1.5,
+                            mr: 1,
                             '@keyframes spin': {
                               '0%': { transform: 'rotate(0deg)' },
                               '100%': { transform: 'rotate(360deg)' },
@@ -745,10 +767,11 @@ export default function SignIn() {
                         variant="body2"
                         sx={{
                           display: 'block',
-                          py: 1,
-                          px: 1.5,
+                          py: 0.5,
+                          px: 1,
                           borderRadius: '8px',
                           transition: 'all 0.2s ease',
+                          fontSize: isMobile ? '0.75rem' : '0.875rem',
                           '&:hover': {
                             backgroundColor: 'rgba(255, 179, 0, 0.1)',
                           },
@@ -765,10 +788,11 @@ export default function SignIn() {
                       variant="body2"
                       sx={{
                         display: 'block',
-                        py: 1,
-                        px: 1.5,
+                        py: 0.5,
+                        px: 1,
                         borderRadius: '8px',
                         transition: 'all 0.2s ease',
+                        fontSize: isMobile ? '0.75rem' : '0.875rem',
                         '&:hover': {
                           backgroundColor: 'rgba(255, 179, 0, 0.1)',
                         },
@@ -811,13 +835,16 @@ export default function SignIn() {
         
         {/* 页脚 */}
         <Box sx={{ 
-          p: 3, 
+          p: 2, 
           textAlign: 'center',
           position: 'relative',
           zIndex: 1,
           backgroundColor: darkMode ? 'inherit' : '#ffffff',
         }}>
-          <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+          <Typography variant="body2" sx={{ 
+            color: 'text.secondary',
+            fontSize: isMobile ? '0.75rem' : '0.875rem'
+          }}>
             © 2025 Corona Studio 保留所有权利
           </Typography>
         </Box>
