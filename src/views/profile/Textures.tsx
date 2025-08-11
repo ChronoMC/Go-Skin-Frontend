@@ -26,7 +26,6 @@ import {
     Palette, 
     Upload, 
     CheckCircle,
-    Star,
     Person,
     Visibility,
     Image,

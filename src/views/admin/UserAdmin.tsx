@@ -32,7 +32,8 @@ import Loading from '@/components/Loading';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { motion } from 'framer-motion';
-import { AdminPanelSettings, Search, Edit, Person, Email, Lock, Security } from '@mui/icons-material';
+import { AdminPanelSettings, Search, Edit, Person, Email, Lock, Security, Palette } from '@mui/icons-material';
+import Typography from '@mui/material/Typography';
 
 // 浅色主题
 const lightTheme = createTheme({

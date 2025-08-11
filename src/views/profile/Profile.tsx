@@ -28,7 +28,7 @@ import {
     VerifiedUser
 } from '@mui/icons-material';
 import { useState, useEffect, useRef } from 'react';
-import { Tooltip, Chip, Divider, Avatar } from '@mui/material';
+import { Chip, Avatar } from '@mui/material';
 
 // 浅色主题
 const lightTheme = createTheme({
@@ -452,7 +452,7 @@ const Profile = function Profile() {
         e.dataTransfer.dropEffect = 'copy';
     };
 
-    const handleDragEnd = (e: React.DragEvent<HTMLButtonElement>) => {
+    const handleDragEnd = () => {
         setDragging(false);
         setDragOffset({ x: 0, y: 0 });
     };
