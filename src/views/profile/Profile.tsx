@@ -21,14 +21,12 @@ import {
     Settings, 
     ContentCopy, 
     CheckCircle,
-    Star,
     Security,
     PaletteOutlined,
-    AccountCircle,
-    VerifiedUser
+    AccountCircle
 } from '@mui/icons-material';
 import { useState, useEffect, useRef } from 'react';
-import { Chip, Avatar } from '@mui/material';
+import { Avatar } from '@mui/material';
 
 // 浅色主题 - 稍微调整字体大小
 const lightTheme = createTheme({
@@ -189,16 +187,6 @@ const lightTheme = createTheme({
           boxShadow: '0 4px 12px rgba(255, 193, 7, 0.3)',
           width: 44,
           height: 44,
-        },
-      },
-    },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          borderRadius: '8.8px',
-          fontWeight: 600,
-          fontSize: '0.77rem',
-          height: '26.4px',
         },
       },
     },
@@ -365,16 +353,6 @@ const darkTheme = createTheme({
           boxShadow: '0 4px 12px rgba(255, 213, 79, 0.3)',
           width: 44,
           height: 44,
-        },
-      },
-    },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          borderRadius: '8.8px',
-          fontWeight: 600,
-          fontSize: '0.77rem',
-          height: '26.4px',
         },
       },
     },
@@ -588,9 +566,42 @@ const Profile = function Profile() {
                                 </Box>
                             </Box>
                             
-                            {/* 状态指示器 */}
+                            {/* 状态指示器 - 使用标准的 MUI 组件替代自定义 Chip */}
                             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1.1, flexWrap: 'wrap', mt: 1.1, zIndex: 2, position: 'relative' }}>
-                               
+                                <Box sx={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: 0.5,
+                                    px: 1.5,
+                                    py: 0.5,
+                                    borderRadius: '13.2px',
+                                    border: '1px solid',
+                                    borderColor: darkMode ? 'success.main' : 'success.main',
+                                    color: darkMode ? 'success.main' : 'success.main',
+                                    fontSize: '0.715rem',
+                                    fontWeight: 600,
+                                    backgroundColor: darkMode ? 'rgba(46, 125, 50, 0.1)' : 'rgba(46, 125, 50, 0.1)',
+                                }}>
+                                    <Security sx={{ fontSize: '0.88rem' }} />
+                                    <span>已验证</span>
+                                </Box>
+                                <Box sx={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    gap: 0.5,
+                                    px: 1.5,
+                                    py: 0.5,
+                                    borderRadius: '13.2px',
+                                    border: '1px solid',
+                                    borderColor: darkMode ? 'warning.main' : 'warning.main',
+                                    color: darkMode ? 'warning.main' : 'warning.main',
+                                    fontSize: '0.715rem',
+                                    fontWeight: 600,
+                                    backgroundColor: darkMode ? 'rgba(255, 179, 0, 0.1)' : 'rgba(255, 179, 0, 0.1)',
+                                }}>
+                                    <Security sx={{ fontSize: '0.88rem' }} />
+                                    <span>高级</span>
+                                </Box>
                             </Box>
                         </AnimatedBox>
 
