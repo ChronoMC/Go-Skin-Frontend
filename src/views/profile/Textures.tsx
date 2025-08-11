@@ -26,7 +26,6 @@ import {
     Palette, 
     Upload, 
     CheckCircle,
-    Star,
     Person,
     Visibility,
     Image,
@@ -38,11 +37,11 @@ import {
 const lightTheme = createTheme({
   palette: {
     primary: {
-      main: '#ffd54f',
+      main: '#ffc107',
       contrastText: '#000000',
     },
     secondary: {
-      main: '#ffb300',
+      main: '#ff9800',
     },
     error: {
       main: '#f44336',
@@ -215,8 +214,8 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#ff6f00',
-      contrastText: '#FFFFFF',
+      main: '#ffd54f',
+      contrastText: '#000000',
     },
     secondary: {
       main: '#ffb300',
@@ -234,7 +233,7 @@ const darkTheme = createTheme({
       main: '#4caf50',
     },
     background: {
-      default: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+      default: '#1a1a1a',
       paper: 'rgba(45, 45, 45, 0.95)',
     },
     text: {
@@ -268,7 +267,7 @@ const darkTheme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+          background: '#1a1a1a',
           backgroundAttachment: 'fixed',
           minHeight: '100vh',
           overflow: 'hidden',
@@ -479,7 +478,6 @@ const Textures = function Textures() {
                 position: 'relative',
                 overflow: 'hidden',
                 p: { xs: 2, md: 4 },
-                backgroundColor: darkMode ? 'inherit' : 'inherit',
             }}>
                 {/* 装饰性背景元素 */}
                 <Box sx={{
@@ -537,7 +535,7 @@ const Textures = function Textures() {
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            boxShadow: '0 12px 40px rgba(33, 150, 243, 0.4)',
+                            boxShadow: '0 12px 40px rgba(255, 193, 7, 0.4)',
                         }}>
                             <Palette sx={{ fontSize: 50, color: '#fff' }} />
                         </Box>
@@ -853,7 +851,7 @@ const Textures = function Textures() {
                     </Box>
                 }
                 sx={{
-                    '& .MuiSnackbar-root': {
+                    '& .MuiSnackbarContent-root': {
                         backgroundColor: '#4caf50',
                         color: 'white',
                         borderRadius: '12px',

@@ -1,15 +1,14 @@
+// Login.tsx - 修改后的版本
 import * as React from 'react';
 import { useState } from 'react';
 import { 
   Box, Button, TextField, Link, Grid, Avatar, 
-  Typography, Container, Snackbar, Alert, Slide,
-  IconButton, useMediaQuery
-} from '@mui/material';
+  Typography, Container, Snackbar, Alert, Slide} from '@mui/material';
 import { 
-  LockOutlined, Brightness4, Brightness7} from '@mui/icons-material';
+  LockOutlined} from '@mui/icons-material';
 import { useSetAtom } from 'jotai';
 import { token, user } from '@/store/store';
-import { getConfig, login } from '@/apis/apis';
+import { login } from '@/apis/apis';
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Loading from '@/components/Loading';
 import CheckInput, { refType } from '@/components/CheckInput';
@@ -17,10 +16,10 @@ import useTitle from '@/hooks/useTitle';
 import CaptchaWidget from '@/components/CaptchaWidget';
 import type { refType as CaptchaWidgetRef } from '@/components/CaptchaWidget';
 import { ApiErr } from '@/apis/error';
-import { useRequest } from 'ahooks';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { motion } from 'framer-motion';
+import Fade from '@mui/material/Fade';
 
 // 使用与主页相同的主题
 const lightTheme = createTheme({
@@ -67,7 +66,7 @@ const lightTheme = createTheme({
           background: '#ffffff',
           backgroundAttachment: 'fixed',
           minHeight: '100vh',
-          overflowX: 'hidden',
+          overflow: 'hidden', // 防止滚动条出现
           margin: 0,
           padding: 0,
         },
@@ -217,7 +216,7 @@ const darkTheme = createTheme({
           background: 'linear-gradient(135deg, #212121 0%, #424242 100%)',
           backgroundAttachment: 'fixed',
           minHeight: '100vh',
-          overflowX: 'hidden',
+          overflow: 'hidden', // 防止滚动条出现
           margin: 0,
           padding: 0,
         },
@@ -341,7 +340,6 @@ export default function SignIn() {
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const currentTheme = darkMode ? darkTheme : lightTheme;
-  const isMobile = useMediaQuery(currentTheme.breakpoints.down('sm'));
 
   // 监听系统主题变化
   React.useEffect(() => {
@@ -359,18 +357,7 @@ export default function SignIn() {
     };
   }, []);
 
-  const toggleThemeMode = () => {
-    setDarkMode(!darkMode);
-  };
 
-  const server = useRequest(getConfig, {
-    cacheKey: "/api/v1/config",
-    staleTime: 60000,
-    onError: e => {
-      console.warn(e)
-      setErr(String(e))
-    }
-  })
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -424,387 +411,377 @@ export default function SignIn() {
         sx={{
           minHeight: '100vh',
           display: 'flex',
-          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          py: 0,
           position: 'relative',
           overflow: 'hidden',
           backgroundColor: darkMode ? 'inherit' : '#ffffff',
         }}
       >
-        {/* 装饰性背景元素 - 修复溢出问题 */}
-        {!isMobile && (
-          <>
-            <Box sx={{
-              position: 'absolute',
-              top: '-10%',
-              right: '-10%',
-              width: '30vw',
-              height: '30vw',
-              maxWidth: 400,
-              maxHeight: 400,
-              borderRadius: '50%',
-              background: darkMode 
-                ? 'radial-gradient(circle, rgba(255, 213, 79, 0.1) 0%, rgba(255, 179, 0, 0.15) 100%)' 
-                : 'radial-gradient(circle, rgba(255, 193, 7, 0.15) 0%, rgba(255, 152, 0, 0.1) 100%)',
-              zIndex: 0,
-            }} />
-            
-            <Box sx={{
-              position: 'absolute',
-              bottom: '-15%',
-              left: '-5%',
-              width: '40vw',
-              height: '40vw',
-              maxWidth: 500,
-              maxHeight: 500,
-              borderRadius: '50%',
-              background: darkMode 
-                ? 'radial-gradient(circle, rgba(255, 179, 0, 0.1) 0%, rgba(255, 213, 79, 0.15) 100%)'
-                : 'radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, rgba(255, 193, 7, 0.15) 100%)',
-              zIndex: 0,
-            }} />
-          </>
-        )}
-
-        {/* 导航栏 */}
+        {/* 装饰性背景元素 - 修复尺寸问题 */}
         <Box sx={{
-          p: 2,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          position: 'relative',
-          zIndex: 1,
-          backgroundColor: darkMode ? 'inherit' : '#ffffff',
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar sx={{ 
-              bgcolor: 'primary.main', 
-              mr: 1.5,
-              color: darkMode ? '#000' : '#000',
-              width: 36,
-              height: 36
-            }}>
-              <LockOutlined fontSize="small" />
-            </Avatar>
-            <Typography variant="h6" sx={{ 
-              fontWeight: 800,
-              background: 'linear-gradient(to right, #ffc107, #ff9800)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              fontSize: isMobile ? '1rem' : '1.25rem'
-            }}>
-              Corona Studio
-            </Typography>
-          </Box>
-          
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <IconButton 
-              onClick={toggleThemeMode}
-              size="small"
-              sx={{ 
-                borderRadius: '8px',
-                backdropFilter: 'blur(12px)',
-                backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.7)',
-                border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 179, 0, 0.3)',
-                color: darkMode ? '#ffd54f' : '#ff9800',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  backgroundColor: darkMode ? 'rgba(66, 66, 66, 0.7)' : 'rgba(255, 255, 255, 0.9)',
-                }
-              }}
-            >
-              {darkMode ? <Brightness7 fontSize="small" /> : <Brightness4 fontSize="small" />}
-            </IconButton>
-          </Box>
-        </Box>
+          position: 'absolute',
+          top: '-10%',
+          right: '-10%',
+          width: '400px',
+          height: '400px',
+          borderRadius: '50%',
+          background: darkMode 
+            ? 'radial-gradient(circle, rgba(255, 213, 79, 0.1) 0%, rgba(255, 179, 0, 0.15) 100%)' 
+            : 'radial-gradient(circle, rgba(255, 193, 7, 0.15) 0%, rgba(255, 152, 0, 0.1) 100%)',
+          zIndex: 0,
+        }} />
         
-        {/* 主内容 */}
+        <Box sx={{
+          position: 'absolute',
+          bottom: '-15%',
+          left: '-5%',
+          width: '500px',
+          height: '500px',
+          borderRadius: '50%',
+          background: darkMode 
+            ? 'radial-gradient(circle, rgba(255, 179, 0, 0.1) 0%, rgba(255, 213, 79, 0.15) 100%)'
+            : 'radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, rgba(255, 193, 7, 0.15) 100%)',
+          zIndex: 0,
+        }} />
+        
         <Container 
-          maxWidth="sm" 
+          maxWidth="xs" 
+          component="main" 
           sx={{ 
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            position: 'relative',
+            position: 'relative', 
             zIndex: 1,
-            py: isMobile ? 2 : 4,
-            px: 2,
-            overflow: 'auto'
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100vh',
+            maxHeight: '100vh',
+            my: 0,
+            py: 0,
           }}
         >
-          <AnimatedBox
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            sx={{
-              p: isMobile ? 2 : 4,
-              borderRadius: '24px',
-              backdropFilter: 'blur(12px)',
-              backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.8)',
-              border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 179, 0, 0.3)',
-              boxShadow: '0 20px 50px rgba(0, 0, 0, 0.12)',
-              position: 'relative',
-              overflow: 'hidden',
-            }}
-          >
-            {/* 装饰性光泽效果 */}
-            <Box sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '4px',
-              background: darkMode 
-                ? 'linear-gradient(to right, transparent, rgba(255, 213, 79, 0.5), transparent)'
-                : 'linear-gradient(to right, transparent, rgba(255, 193, 7, 0.7), transparent)',
-            }} />
-            
+          <Fade in={true} timeout={600}>
             <Box
               sx={{
+                width: '100%',
+                p: { xs: 3, sm: 4, md: 5 },
+                borderRadius: '24px',
+                backdropFilter: 'blur(12px)',
+                backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.8)',
+                border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 179, 0, 0.3)',
+                boxShadow: '0 20px 50px rgba(0, 0, 0, 0.12)',
+                position: 'relative',
+                overflow: 'hidden',
+                maxHeight: '90vh',
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
               }}
             >
-              <AnimatedBox
-                animate={{ 
-                  rotate: [0, 5, 0, -5, 0],
-                  scale: [1, 1.05, 1]
-                }}
-                transition={{ 
-                  duration: 0.8,
-                  ease: "easeInOut",
-                  times: [0, 0.2, 0.5, 0.8, 1]
-                }}
-              >
-                <Avatar
-                  sx={{
-                    m: 1,
-                    width: isMobile ? 56 : 72,
-                    height: isMobile ? 56 : 72,
-                    bgcolor: 'transparent',
-                    position: 'relative',
-                  }}
-                >
-                  <Box
-                    sx={{
-                      position: 'absolute',
-                      width: '100%',
-                      height: '100%',
-                      borderRadius: '50%',
-                      background: 'linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 152, 0, 0.2) 100%)',
-                      backdropFilter: 'blur(4px)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                  >
-                    <LockOutlined 
-                      sx={{ 
-                        fontSize: isMobile ? 28 : 36, 
-                        color: '#ff9800',
-                        filter: 'drop-shadow(0 2px 4px rgba(255, 152, 0, 0.3))'
-                      }} 
-                    />
-                  </Box>
-                </Avatar>
-              </AnimatedBox>
-              
-              <Typography
-                component="h1"
-                variant="h5"
-                sx={{
-                  mb: 1,
-                  fontWeight: 800,
-                  background: 'linear-gradient(to right, #ffc107, #ff9800)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  letterSpacing: '-0.5px',
-                  fontSize: isMobile ? '1.5rem' : '1.75rem'
-                }}
-              >
-                欢迎回来
-              </Typography>
-              
-              <Typography variant="body2" sx={{ 
-                color: 'text.secondary',
-                mb: 3,
-                textAlign: 'center',
-                maxWidth: '300px',
-                fontSize: isMobile ? '0.875rem' : '1rem'
-              }}>
-                请使用您的账号登录系统
-              </Typography>
+              {/* 装饰性光泽效果 */}
+              <Box sx={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '4px',
+                background: darkMode 
+                  ? 'linear-gradient(to right, transparent, rgba(255, 213, 79, 0.5), transparent)'
+                  : 'linear-gradient(to right, transparent, rgba(255, 193, 7, 0.7), transparent)',
+              }} />
               
               <Box
-                component="form"
-                onSubmit={handleSubmit}
-                noValidate
-                sx={{ width: '100%', mt: 1 }}
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  flex: '1 1 auto',
+                }}
               >
                 <AnimatedBox
-                  animate={{
-                    y: emailFocused ? -5 : 0,
+                  animate={{ 
+                    rotate: [0, 5, 0, -5, 0],
+                    scale: [1, 1.05, 1]
                   }}
-                  transition={{ type: "spring", stiffness: 300 }}
-                >
-                  <CheckInput
-                    ref={(dom) => {
-                      dom && checkList.current.set("1", dom)
-                    }}
-                    checkList={[
-                      {
-                        errMsg: "需为邮箱",
-                        reg: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
-                      }
-                    ]}
-                    margin="normal"
-                    fullWidth
-                    id="email"
-                    label="邮箱"
-                    name="email"
-                    autoComplete="email"
-                    autoFocus
-                    sx={{ mb: 2 }}
-                    size={isMobile ? 'small' : 'medium'}
-                    onFocus={() => setEmailFocused(true)}
-                    onBlur={() => setEmailFocused(false)}
-                  />
-                </AnimatedBox>
-                
-                <AnimatedBox
-                  animate={{
-                    y: passwordFocused ? -5 : 0,
+                  transition={{ 
+                    duration: 0.8,
+                    ease: "easeInOut",
+                    times: [0, 0.2, 0.5, 0.8, 1]
                   }}
-                  transition={{ type: "spring", stiffness: 300 }}
                 >
-                  <TextField
-                    margin="normal"
-                    fullWidth
-                    name="password"
-                    label="密码"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    sx={{ mb: 2 }}
-                    size={isMobile ? 'small' : 'medium'}
-                    onFocus={() => setPasswordFocused(true)}
-                    onBlur={() => setPasswordFocused(false)}
-                  />
-                </AnimatedBox>
-                
-                <Box sx={{ mt: 2, mb: 2 }}>
-                  <CaptchaWidget ref={captchaRef} onSuccess={setCaptchaToken} />
-                </Box>
-                
-                <AnimatedBox
-                  whileHover={{ scale: 1.01 }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  <Button
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    disabled={loading}
+                  <Avatar
                     sx={{
-                      mt: 2,
-                      mb: 3,
-                      py: isMobile ? 1 : 1.5,
-                      fontSize: isMobile ? '0.875rem' : '1rem',
-                      fontWeight: 600,
-                      borderRadius: '12px',
+                      m: 2,
+                      width: 72,
+                      height: 72,
+                      bgcolor: 'transparent',
                       position: 'relative',
-                      overflow: 'hidden',
                     }}
                   >
-                    {loading ? (
-                      <Box 
-                        component="span"
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        <Box 
-                          sx={{
-                            width: 16,
-                            height: 16,
-                            borderRadius: '50%',
-                            border: '2px solid rgba(255,255,255,0.3)',
-                            borderTopColor: 'white',
-                            animation: 'spin 1s linear infinite',
-                            mr: 1,
-                            '@keyframes spin': {
-                              '0%': { transform: 'rotate(0deg)' },
-                              '100%': { transform: 'rotate(360deg)' },
-                            }
-                          }}
-                        />
-                        登录中...
-                      </Box>
-                    ) : '登录'}
-                    
-                    {/* 按钮光泽效果 */}
-                    <Box sx={{
-                      position: 'absolute',
-                      top: 0,
-                      left: 0,
-                      right: 0,
-                      height: '40%',
-                      background: 'linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)',
-                      pointerEvents: 'none',
-                    }} />
-                  </Button>
-                </AnimatedBox>
-                
-                <Grid container justifyContent="space-between" sx={{ mt: 1 }}>
-                  <Grid item>
-                    {server.data?.NeedEmail && (
-                      <Link
-                        component={RouterLink}
-                        to="/forgot_email"
-                        variant="body2"
-                        sx={{
-                          display: 'block',
-                          py: 0.5,
-                          px: 1,
-                          borderRadius: '8px',
-                          transition: 'all 0.2s ease',
-                          fontSize: isMobile ? '0.75rem' : '0.875rem',
-                          '&:hover': {
-                            backgroundColor: 'rgba(255, 179, 0, 0.1)',
-                          },
-                        }}
-                      >
-                        忘记密码?
-                      </Link>
-                    )}
-                  </Grid>
-                  <Grid item>
-                    <Link
-                      component={RouterLink}
-                      to="/register"
-                      variant="body2"
+                    <Box
                       sx={{
-                        display: 'block',
-                        py: 0.5,
-                        px: 1,
-                        borderRadius: '8px',
-                        transition: 'all 0.2s ease',
-                        fontSize: isMobile ? '0.75rem' : '0.875rem',
-                        '&:hover': {
-                          backgroundColor: 'rgba(255, 179, 0, 0.1)',
-                        },
+                        position: 'absolute',
+                        width: '100%',
+                        height: '100%',
+                        borderRadius: '50%',
+                        background: 'linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 152, 0, 0.2) 100%)',
+                        backdropFilter: 'blur(4px)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       }}
                     >
-                      注册新账号
-                    </Link>
+                      <LockOutlined 
+                        sx={{ 
+                          fontSize: 36, 
+                          color: '#ff9800',
+                          filter: 'drop-shadow(0 2px 4px rgba(255, 152, 0, 0.3))'
+                        }} 
+                      />
+                    </Box>
+                  </Avatar>
+                </AnimatedBox>
+                
+                <Typography
+                  component="h1"
+                  variant="h5"
+                  sx={{
+                    mb: 1,
+                    fontWeight: 800,
+                    fontSize: '1.4rem',
+                    background: 'linear-gradient(to right, #ffc107, #ff9800)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    letterSpacing: '-0.5px',
+                  }}
+                >
+                  欢迎回来
+                </Typography>
+                
+                <Typography variant="body2" sx={{ 
+                  color: 'text.secondary',
+                  mb: 2,
+                  textAlign: 'center',
+                  maxWidth: '300px',
+                  fontSize: '0.875rem',
+                }}>
+                  请使用您的账号登录系统
+                </Typography>
+                
+                <Box
+                  component="form"
+                  onSubmit={handleSubmit}
+                  noValidate
+                  sx={{ 
+                    width: '100%', 
+                    mt: 1,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    flex: '1 1 auto',
+                  }}
+                >
+                  <Grid container spacing={1.5}>
+                    <Grid item xs={12}>
+                      <AnimatedBox
+                        animate={{
+                          y: emailFocused ? -5 : 0,
+                        }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        <CheckInput
+                          ref={(dom) => {
+                            dom && checkList.current.set("1", dom)
+                          }}
+                          checkList={[
+                            {
+                              errMsg: "需为邮箱",
+                              reg: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
+                            }
+                          ]}
+                          required
+                          fullWidth
+                          id="email"
+                          label="邮箱"
+                          name="email"
+                          autoComplete="email"
+                          autoFocus
+                          sx={{ 
+                            mb: 0.5,
+                            height: '50px',
+                            '& .MuiInputBase-root': {
+                              height: '100%',
+                            },
+                          }}
+                          size="medium"
+                          onFocus={() => setEmailFocused(true)}
+                          onBlur={() => setEmailFocused(false)}
+                        />
+                      </AnimatedBox>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <AnimatedBox
+                        animate={{
+                          y: passwordFocused ? -5 : 0,
+                        }}
+                        transition={{ type: "spring", stiffness: 300 }}
+                      >
+                        <TextField
+                          required
+                          fullWidth
+                          name="password"
+                          label="密码"
+                          type="password"
+                          id="password"
+                          autoComplete="current-password"
+                          sx={{ 
+                            mb: 0.5,
+                            height: '50px',
+                            '& .MuiInputBase-root': {
+                              height: '100%',
+                            },
+                          }}
+                          size="medium"
+                          onFocus={() => setPasswordFocused(true)}
+                          onBlur={() => setPasswordFocused(false)}
+                        />
+                      </AnimatedBox>
+                    </Grid>
+                    <Grid item xs={12}>
+                      <Box sx={{ 
+                        mt: 0.5, 
+                        mb: 0.5, 
+                        height: '60px',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                      }}>
+                        <CaptchaWidget 
+                          ref={captchaRef} 
+                          onSuccess={setCaptchaToken}
+                          hideRefreshButton={true}
+                        />
+                      </Box>
+                    </Grid>
                   </Grid>
-                </Grid>
+                  
+                  <Box sx={{ 
+                    flex: '0 0 auto',
+                    display: 'flex', 
+                    flexDirection: 'column',
+                    mt: 'auto',
+                    mb: 1
+                  }}>
+                    <AnimatedBox
+                      whileHover={{ scale: 1.01 }}
+                      whileTap={{ scale: 0.98 }}
+                    >
+                      <Button
+                        type="submit"
+                        fullWidth
+                        variant="contained"
+                        disabled={loading}
+                        sx={{
+                          mt: 1.5,
+                          mb: 1.5,
+                          py: 1.2,
+                          fontSize: '1rem',
+                          fontWeight: 600,
+                          borderRadius: '12px',
+                          position: 'relative',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        {loading ? (
+                          <Box 
+                            component="span"
+                            sx={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                            }}
+                          >
+                            <Box 
+                              sx={{
+                                width: 20,
+                                height: 20,
+                                borderRadius: '50%',
+                                border: '2px solid rgba(255,255,255,0.3)',
+                                borderTopColor: 'white',
+                                animation: 'spin 1s linear infinite',
+                                mr: 1.5,
+                                '@keyframes spin': {
+                                  '0%': { transform: 'rotate(0deg)' },
+                                  '100%': { transform: 'rotate(360deg)' },
+                                }
+                              }}
+                            />
+                            登录中...
+                          </Box>
+                        ) : '登录'}
+                        
+                        {/* 按钮光泽效果 */}
+                        <Box sx={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          right: 0,
+                          height: '40%',
+                          background: 'linear-gradient(to bottom, rgba(255,255,255,0.3), transparent)',
+                          pointerEvents: 'none',
+                        }} />
+                      </Button>
+                    </AnimatedBox>
+                    
+                    <Grid container justifyContent="center">
+                      <Grid item>
+                        <Link
+                          component={RouterLink}
+                          to="/forgot_email"
+                          variant="body2"
+                          sx={{
+                            display: 'block',
+                            py: 0.8,
+                            px: 1.2,
+                            borderRadius: '8px',
+                            transition: 'all 0.2s ease',
+                            fontSize: '0.8rem',
+                            '&:hover': {
+                              backgroundColor: 'rgba(255, 179, 0, 0.1)',
+                            },
+                          }}
+                        >
+                          忘记密码?
+                        </Link>
+                      </Grid>
+                    </Grid>
+                    
+                    <Grid container justifyContent="center">
+                      <Grid item>
+                        <Link
+                          component={RouterLink}
+                          to="/register"
+                          variant="body2"
+                          sx={{
+                            display: 'block',
+                            py: 0.8,
+                            px: 1.2,
+                            borderRadius: '8px',
+                            transition: 'all 0.2s ease',
+                            fontSize: '0.8rem',
+                            '&:hover': {
+                              backgroundColor: 'rgba(255, 179, 0, 0.1)',
+                            },
+                          }}
+                        >
+                          注册新账号
+                        </Link>
+                      </Grid>
+                    </Grid>
+                  </Box>
+                </Box>
               </Box>
             </Box>
-          </AnimatedBox>
+          </Fade>
           
           <Snackbar
             open={err !== ""}
@@ -832,22 +809,6 @@ export default function SignIn() {
           
           {loading && <Loading />}
         </Container>
-        
-        {/* 页脚 */}
-        <Box sx={{ 
-          p: 2, 
-          textAlign: 'center',
-          position: 'relative',
-          zIndex: 1,
-          backgroundColor: darkMode ? 'inherit' : '#ffffff',
-        }}>
-          <Typography variant="body2" sx={{ 
-            color: 'text.secondary',
-            fontSize: isMobile ? '0.75rem' : '0.875rem'
-          }}>
-            © 2025 Corona Studio 保留所有权利
-          </Typography>
-        </Box>
       </Box>
     </ThemeProvider>
   );

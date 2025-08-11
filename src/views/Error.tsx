@@ -1,14 +1,10 @@
 import { 
   Box, Button, Typography, Container,
-  Link, Avatar, IconButton
-} from '@mui/material';
+  Link} from '@mui/material';
 import { 
   ArrowBack, 
   SentimentVeryDissatisfied,
-  Home,
-  Brightness4,
-  Brightness7
-} from '@mui/icons-material';
+  Home} from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { motion } from 'framer-motion';
@@ -291,11 +287,6 @@ export default function NotFoundPage() {
       systemThemeQuery.removeEventListener('change', handleSystemThemeChange);
     };
   }, []);
-
-  const toggleThemeMode = () => {
-    setDarkMode(!darkMode);
-  };
-
   const handleGoHome = () => {
     navigate("/");
   };
@@ -340,51 +331,13 @@ export default function NotFoundPage() {
           zIndex: 0,
         }} />
 
-        {/* 导航栏 */}
-        <Box sx={{
-          p: 3,
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          position: 'relative',
-          zIndex: 1,
-          backgroundColor: darkMode ? 'inherit' : '#ffffff',
+        {/* 主题切换按钮容器 - 修复了未闭合的Box标签 */}
+        <Box sx={{ 
+          position: 'absolute', 
+          top: 20, 
+          right: 20, 
+          zIndex: 10 
         }}>
-          <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Avatar sx={{ 
-              bgcolor: 'primary.main', 
-              mr: 1.5,
-              color: darkMode ? '#000' : '#000'
-            }}>
-            </Avatar>
-            <Typography variant="h6" sx={{ 
-              fontWeight: 800,
-              background: 'linear-gradient(to right, #ffc107, #ff9800)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-            }}>
-              Corona Studio
-            </Typography>
-          </Box>
-          
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <IconButton 
-              onClick={toggleThemeMode}
-              sx={{ 
-                borderRadius: '12px',
-                backdropFilter: 'blur(12px)',
-                backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.7)',
-                border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 179, 0, 0.3)',
-                color: darkMode ? '#ffd54f' : '#ff9800',
-                transition: 'all 0.3s ease',
-                '&:hover': {
-                  backgroundColor: darkMode ? 'rgba(66, 66, 66, 0.7)' : 'rgba(255, 255, 255, 0.9)',
-                }
-              }}
-            >
-              {darkMode ? <Brightness7 /> : <Brightness4 />}
-            </IconButton>
-          </Box>
         </Box>
         
         {/* 主内容 */}

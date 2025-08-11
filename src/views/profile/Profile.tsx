@@ -28,7 +28,7 @@ import {
     VerifiedUser
 } from '@mui/icons-material';
 import { useState, useEffect, useRef } from 'react';
-import { Tooltip, Chip, Divider, Avatar } from '@mui/material';
+import { Chip, Avatar } from '@mui/material';
 
 // 浅色主题
 const lightTheme = createTheme({
@@ -75,8 +75,7 @@ const lightTheme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          background: 'linear-gradient(135deg, #fafafa 0%, #f5f5f5 100%)',
-          backgroundAttachment: 'fixed',
+          background: '#fafafa',
           minHeight: '100vh',
           overflow: 'hidden',
           margin: 0,
@@ -149,6 +148,8 @@ const lightTheme = createTheme({
             boxShadow: '0 30px 80px rgba(0, 0, 0, 0.12)',
             border: '1px solid rgba(255, 193, 7, 0.4)',
           },
+          // 添加最大宽度以防止溢出
+          maxWidth: '100%',
         },
       },
     },
@@ -209,7 +210,7 @@ const darkTheme = createTheme({
       main: '#ffb300',
     },
     background: {
-      default: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+      default: '#1a1a1a',
       paper: 'rgba(45, 45, 45, 0.95)',
     },
     text: {
@@ -243,8 +244,7 @@ const darkTheme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-          backgroundAttachment: 'fixed',
+          background: '#1a1a1a',
           minHeight: '100vh',
           overflow: 'hidden',
           margin: 0,
@@ -317,6 +317,8 @@ const darkTheme = createTheme({
             boxShadow: '0 30px 80px rgba(0, 0, 0, 0.4)',
             border: '1px solid rgba(255, 213, 79, 0.4)',
           },
+          // 添加最大宽度以防止溢出
+          maxWidth: '100%',
         },
       },
     },
@@ -452,7 +454,7 @@ const Profile = function Profile() {
         e.dataTransfer.dropEffect = 'copy';
     };
 
-    const handleDragEnd = (e: React.DragEvent<HTMLButtonElement>) => {
+    const handleDragEnd = () => {
         setDragging(false);
         setDragOffset({ x: 0, y: 0 });
     };
@@ -474,7 +476,6 @@ const Profile = function Profile() {
                 position: 'relative',
                 overflow: 'hidden',
                 p: { xs: 2, md: 4 },
-                backgroundColor: darkMode ? 'inherit' : 'inherit',
             }}>
                 {/* 装饰性背景元素 */}
                 <Box sx={{
@@ -522,11 +523,13 @@ const Profile = function Profile() {
                         justifyContent: 'center',
                         alignItems: 'center',
                         mb: 3,
+                        flexDirection: { xs: 'column', sm: 'row' },
+                        gap: { xs: 2, sm: 3 },
                     }}>
                         <Avatar sx={{ 
                             width: 80, 
                             height: 80, 
-                            mr: 3,
+                            mr: { sm: 3 },
                             background: 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)',
                             boxShadow: '0 12px 40px rgba(255, 193, 7, 0.4)',
                         }}>
@@ -540,14 +543,14 @@ const Profile = function Profile() {
                                 background: 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)',
                                 WebkitBackgroundClip: 'text',
                                 WebkitTextFillColor: 'transparent',
-                                fontSize: { xs: '2.5rem', md: '3rem' }
+                                fontSize: { xs: '2rem', md: '3rem' }
                             }}>
                                 个人信息
                             </Typography>
                             <Typography variant="h6" sx={{ 
                                 color: 'text.secondary',
                                 fontWeight: 500,
-                                fontSize: { xs: '1.1rem', md: '1.2rem' }
+                                fontSize: { xs: '1rem', md: '1.2rem' }
                             }}>
                                 管理您的账户和皮肤设置
                             </Typography>
@@ -555,7 +558,7 @@ const Profile = function Profile() {
                     </Box>
                     
                     {/* 状态指示器 */}
-                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap' }}>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap', mt: 2 }}>
                         <Chip 
                             icon={<VerifiedUser />} 
                             label="账户已验证" 
@@ -595,6 +598,7 @@ const Profile = function Profile() {
                         zIndex: 1,
                         maxWidth: '1400px',
                         mx: 'auto',
+                        width: '100%', // 确保不超过容器宽度
                     }}
                     onDragOver={handleDragOver}
                 >
@@ -603,7 +607,7 @@ const Profile = function Profile() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-                        sx={{ gridArea: "a" }}
+                        sx={{ gridArea: "a", width: '100%' }}
                     >
                         <CardHeader 
                             title={
@@ -619,7 +623,7 @@ const Profile = function Profile() {
                         <CardContent>
                             <Box sx={{ 
                                 display: "grid", 
-                                gridTemplateColumns: "auto 1fr", 
+                                gridTemplateColumns: { sm: "auto 1fr", xs: "1fr" }, 
                                 gap: 3,
                                 alignItems: 'center'
                             }}>
@@ -637,6 +641,7 @@ const Profile = function Profile() {
                                     border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 193, 7, 0.2)',
                                     position: 'relative',
                                     overflow: 'hidden',
+                                    wordBreak: 'break-word', // 防止长用户名溢出
                                 }}>
                                     <Typography sx={{ 
                                         fontWeight: 700, 
@@ -698,7 +703,7 @@ const Profile = function Profile() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-                        sx={{ gridArea: "b" }}
+                        sx={{ gridArea: "b", width: '100%' }}
                     >
                         <CardHeader 
                             title={
@@ -717,10 +722,10 @@ const Profile = function Profile() {
                             alignItems: 'center', 
                             flexDirection: 'column', 
                             gap: 3,
-                            p: 4,
+                            p: { xs: 2, sm: 4 },
                         }}>
                             <Box sx={{
-                                p: 4,
+                                p: { xs: 2, sm: 4 },
                                 borderRadius: '24px',
                                 backgroundColor: darkMode ? 'rgba(255, 179, 0, 0.08)' : 'rgba(255, 193, 7, 0.08)',
                                 border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 193, 7, 0.2)',
@@ -741,6 +746,8 @@ const Profile = function Profile() {
                                     height: '3px',
                                     background: 'linear-gradient(90deg, #ffc107, #ff9800)',
                                 },
+                                width: '100%',
+                                maxWidth: { xs: '100%', sm: '300px' }, // 限制最大宽度
                             }}>
                                 <SkinViewUUID uuid={userinfo?.uuid ?? ""} width={220} height={220} />
                             </Box>
@@ -776,7 +783,7 @@ const Profile = function Profile() {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                        sx={{ gridArea: "c" }}
+                        sx={{ gridArea: "c", width: '100%' }}
                     >
                         <CardHeader 
                             title={
@@ -828,6 +835,7 @@ const Profile = function Profile() {
                                     height: '3px',
                                     background: 'linear-gradient(90deg, #ffc107, #ff9800)',
                                 },
+                                width: '100%', // 确保不超过容器宽度
                             }}>
                                 <code style={{ 
                                     color: darkMode ? '#ffd54f' : '#ff9800',
@@ -879,6 +887,7 @@ const Profile = function Profile() {
                                     opacity: dragging ? 0.8 : 1,
                                     transition: dragging ? 'none' : 'all 0.3s ease',
                                     boxShadow: dragging ? '0 12px 32px rgba(255, 193, 7, 0.4)' : '0 4px 20px rgba(255, 193, 7, 0.3)',
+                                    width: { xs: '100%', sm: 'auto' }, // 小屏幕上按钮占满宽度
                                 }}
                             >
                                 拖拽到启动器
@@ -894,6 +903,7 @@ const Profile = function Profile() {
                                     px: 4,
                                     py: 1.5,
                                     fontSize: '1rem',
+                                    width: { xs: '100%', sm: 'auto' }, // 小屏幕上按钮占满宽度
                                 }}
                             >
                                 {copied ? '已复制!' : '复制地址'}
@@ -914,6 +924,7 @@ const Profile = function Profile() {
                         left: '50%',
                         transform: 'translateX(-50%)',
                         zIndex: 1,
+                        px: 2, // 添加内边距防止文本溢出
                     }}
                 >
                     <Typography variant="body2" sx={{
@@ -921,6 +932,8 @@ const Profile = function Profile() {
                         textAlign: 'center',
                         fontWeight: 500,
                         opacity: 0.7,
+                        maxWidth: '100%', // 防止文本溢出
+                        wordBreak: 'break-word', // 长单词换行
                     }}>
                         © 2024 Go-Skin - 专业的 Minecraft 皮肤管理平台
                     </Typography>

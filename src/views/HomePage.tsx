@@ -7,7 +7,7 @@ import {
 import { 
   AccountCircle, 
   ArrowForward, Download, 
-  Search, Palette, Notifications, 
+  Palette, Notifications, 
   Menu, Close, LockOutlined,
   Brightness4, 
   Brightness7 
@@ -578,36 +578,6 @@ export default function HomePage() {
               }}
             >
               {darkMode ? <Brightness7 /> : <Brightness4 />}
-            </IconButton>
-            
-            <IconButton sx={{ 
-              borderRadius: '12px',
-              backdropFilter: 'blur(12px)',
-              backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.7)',
-              border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 179, 0, 0.3)',
-              color: darkMode ? '#e0e0e0' : '#424242',
-            }}>
-              <Search />
-            </IconButton>
-            <IconButton sx={{ 
-              borderRadius: '12px',
-              backdropFilter: 'blur(12px)',
-              backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.7)',
-              border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 179, 0, 0.3)',
-              position: 'relative',
-              color: darkMode ? '#e0e0e0' : '#424242',
-            }}>
-              <Notifications />
-              <Box sx={{
-                position: 'absolute',
-                top: 5,
-                right: 5,
-                width: 10,
-                height: 10,
-                backgroundColor: '#f44336',
-                borderRadius: '50%',
-                border: '2px solid rgba(255,255,255,0.7)'
-              }} />
             </IconButton>
             <Button 
               variant="outlined" 

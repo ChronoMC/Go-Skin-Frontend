@@ -30,21 +30,23 @@ import Fade from '@mui/material/Fade';
 import Slide from '@mui/material/Slide';
 import { motion } from 'framer-motion';
 
-const theme = createTheme({
+// 浅色主题 - 与 Register 组件保持一致
+const lightTheme = createTheme({
   palette: {
     primary: {
-      main: '#6366f1',
-      contrastText: '#ffffff',
+      main: '#ffc107',
+      contrastText: '#000000',
     },
     secondary: {
-      main: '#8b5cf6',
+      main: '#ff9800',
     },
     background: {
-      default: 'linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%)',
+      default: '#ffffff',
+      paper: '#ffffff',
     },
     text: {
-      primary: '#1e293b',
-      secondary: '#64748b',
+      primary: '#212121',
+      secondary: '#424242',
     },
   },
   typography: {
@@ -70,9 +72,12 @@ const theme = createTheme({
     MuiCssBaseline: {
       styleOverrides: {
         body: {
-          background: 'linear-gradient(135deg, #dbeafe 0%, #ede9fe 100%)',
+          background: '#ffffff',
           backgroundAttachment: 'fixed',
           minHeight: '100vh',
+          overflow: 'hidden',
+          margin: 0,
+          padding: 0,
         },
       },
     },
@@ -84,19 +89,19 @@ const theme = createTheme({
           textTransform: 'none',
           padding: '12px 24px',
           transition: 'all 0.3s ease',
-          boxShadow: '0 4px 6px rgba(79, 70, 229, 0.1)',
+          boxShadow: '0 4px 6px rgba(255, 179, 0, 0.2)',
           '&:hover': {
             transform: 'translateY(-2px)',
-            boxShadow: '0 6px 12px rgba(79, 70, 229, 0.2)',
+            boxShadow: '0 6px 12px rgba(255, 179, 0, 0.3)',
           },
           '&.Mui-disabled': {
             opacity: 0.7,
           },
         },
         contained: {
-          background: 'linear-gradient(to right, #6366f1, #8b5cf6)',
+          background: 'linear-gradient(to right, #ffc107, #ff9800)',
           '&:hover': {
-            background: 'linear-gradient(to right, #4f46e5, #7c3aed)',
+            background: 'linear-gradient(to right, #ffb300, #fb8c00)',
           },
         },
       },
@@ -106,22 +111,22 @@ const theme = createTheme({
         root: {
           '& .MuiOutlinedInput-root': {
             borderRadius: '12px',
-            backgroundColor: 'rgba(255, 255, 255, 0.7)',
+            backgroundColor: 'rgba(255, 255, 255, 0.9)',
             '& fieldset': {
-              borderColor: 'rgba(203, 213, 225, 0.5)',
+              borderColor: 'rgba(255, 179, 0, 0.5)',
             },
             '&:hover fieldset': {
-              borderColor: '#c7d2fe',
+              borderColor: '#ffd54f',
             },
             '&.Mui-focused fieldset': {
               borderWidth: '1px',
-              borderColor: '#818cf8',
+              borderColor: '#ffc107',
             },
           },
           '& .MuiInputLabel-root': {
-            color: '#64748b',
+            color: '#757575',
             '&.Mui-focused': {
-              color: '#6366f1',
+              color: '#ff9800',
               fontWeight: 500,
             },
           },
@@ -133,18 +138,18 @@ const theme = createTheme({
         root: {
           borderRadius: '24px',
           backdropFilter: 'blur(12px)',
-          backgroundColor: 'rgba(255, 255, 255, 0.65)',
-          border: '1px solid rgba(255, 255, 255, 0.5)',
-          boxShadow: '0 8px 32px rgba(31, 41, 55, 0.1)',
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          border: '1px solid rgba(255, 179, 0, 0.3)',
+          boxShadow: '0 8px 32px rgba(33, 33, 33, 0.1)',
         },
       },
     },
     MuiAvatar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#e0e7ff',
-          color: '#6366f1',
-          boxShadow: '0 4px 12px rgba(99, 102, 241, 0.15)',
+          backgroundColor: '#fff9c4',
+          color: '#ff9800',
+          boxShadow: '0 4px 12px rgba(255, 179, 0, 0.2)',
         },
       },
     },
@@ -152,11 +157,11 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           fontWeight: 500,
-          color: '#4f46e5',
+          color: '#ff9800',
           textDecoration: 'none',
           transition: 'all 0.2s ease',
           '&:hover': {
-            color: '#7c3aed',
+            color: '#ff6d00',
             textDecoration: 'underline',
           },
         },
@@ -167,8 +172,162 @@ const theme = createTheme({
         root: {
           borderRadius: '12px',
           backdropFilter: 'blur(10px)',
-          backgroundColor: 'rgba(255, 255, 255, 0.85)',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+        },
+      },
+    },
+  },
+});
+
+// 深色主题 - 与 Register 组件保持一致
+const darkTheme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#ffd54f',
+      contrastText: '#000000',
+    },
+    secondary: {
+      main: '#ffb300',
+    },
+    background: {
+      default: 'linear-gradient(135deg, #212121 0%, #424242 100%)',
+      paper: 'rgba(33, 33, 33, 0.9)',
+    },
+    text: {
+      primary: '#f5f5f5',
+      secondary: '#e0e0e0',
+    },
+  },
+  typography: {
+    fontFamily: [
+      'Inter',
+      '-apple-system',
+      'BlinkMacSystemFont',
+      '"Segoe UI"',
+      'Roboto',
+      '"Helvetica Neue"',
+      'Arial',
+      'sans-serif',
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(','),
+    h5: {
+      fontWeight: 700,
+      letterSpacing: '-0.5px',
+    },
+  },
+  components: {
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          background: 'linear-gradient(135deg, #212121 0%, #424242 100%)',
+          backgroundAttachment: 'fixed',
+          minHeight: '100vh',
+          overflow: 'hidden',
+          margin: 0,
+          padding: 0,
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          borderRadius: '12px',
+          fontWeight: 600,
+          textTransform: 'none',
+          padding: '12px 24px',
+          transition: 'all 0.3s ease',
+          boxShadow: '0 4px 6px rgba(255, 179, 0, 0.2)',
+          '&:hover': {
+            transform: 'translateY(-2px)',
+            boxShadow: '0 6px 12px rgba(255, 179, 0, 0.3)',
+          },
+          '&.Mui-disabled': {
+            opacity: 0.7,
+          },
+        },
+        contained: {
+          background: 'linear-gradient(to right, #ffc107, #ff9800)',
+          '&:hover': {
+            background: 'linear-gradient(to right, #ffb300, #fb8c00)',
+          },
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          '& .MuiOutlinedInput-root': {
+            borderRadius: '12px',
+            backgroundColor: 'rgba(66, 66, 66, 0.7)',
+            '& fieldset': {
+              borderColor: 'rgba(255, 179, 0, 0.3)',
+            },
+            '&:hover fieldset': {
+              borderColor: '#ffd54f',
+            },
+            '&.Mui-focused fieldset': {
+              borderWidth: '1px',
+              borderColor: '#ffc107',
+            },
+          },
+          '& .MuiInputLabel-root': {
+            color: '#bdbdbd',
+            '&.Mui-focused': {
+              color: '#ffc107',
+              fontWeight: 500,
+            },
+          },
+          '& .MuiInputBase-input': {
+            color: '#f5f5f5',
+          },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: '24px',
+          backdropFilter: 'blur(12px)',
+          backgroundColor: 'rgba(33, 33, 33, 0.85)',
+          border: '1px solid rgba(255, 179, 0, 0.2)',
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2)',
+        },
+      },
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: 'rgba(255, 213, 79, 0.2)',
+          color: '#ffd54f',
+          boxShadow: '0 4px 12px rgba(255, 179, 0, 0.2)',
+        },
+      },
+    },
+    MuiLink: {
+      styleOverrides: {
+        root: {
+          fontWeight: 500,
+          color: '#ffb300',
+          textDecoration: 'none',
+          transition: 'all 0.2s ease',
+          '&:hover': {
+            color: '#ffd54f',
+            textDecoration: 'underline',
+          },
+        },
+      },
+    },
+    MuiAlert: {
+      styleOverrides: {
+        root: {
+          borderRadius: '12px',
+          backdropFilter: 'blur(10px)',
+          backgroundColor: 'rgba(33, 33, 33, 0.9)',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.2)',
         },
       },
     },
@@ -189,6 +348,25 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
   const navigate = useNavigate();
   const [helperText, setHelperText] = useState("")
   const [loading, setLoading] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+  const currentTheme = darkMode ? darkTheme : lightTheme;
+
+  // 监听系统主题变化
+  useEffect(() => {
+    const handleSystemThemeChange = (e: MediaQueryListEvent) => {
+      setDarkMode(e.matches);
+    };
+
+    const systemThemeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    setDarkMode(systemThemeQuery.matches);
+    
+    // 监听系统主题变化
+    systemThemeQuery.addEventListener('change', handleSystemThemeChange);
+    
+    return () => {
+      systemThemeQuery.removeEventListener('change', handleSystemThemeChange);
+    };
+  }, []);
 
   const server = useRequest(getConfig, {
     cacheKey: "/api/v1/config",
@@ -261,7 +439,7 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={currentTheme}>
       <CssBaseline />
       <Box
         sx={{
@@ -272,9 +450,10 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
           py: 4,
           position: 'relative',
           overflow: 'hidden',
+          backgroundColor: darkMode ? 'inherit' : '#ffffff',
         }}
       >
-        {/* 装饰性背景元素 - 与登录页面相同 */}
+        {/* 装饰性背景元素 - 与 Register 页面保持一致 */}
         <Box sx={{
           position: 'absolute',
           top: '-10%',
@@ -282,7 +461,9 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
           width: '400px',
           height: '400px',
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, rgba(139, 92, 246, 0.15) 0%, rgba(99, 102, 241, 0.1) 100%)',
+          background: darkMode 
+            ? 'radial-gradient(circle, rgba(255, 213, 79, 0.1) 0%, rgba(255, 179, 0, 0.15) 100%)' 
+            : 'radial-gradient(circle, rgba(255, 193, 7, 0.15) 0%, rgba(255, 152, 0, 0.1) 100%)',
           zIndex: 0,
         }} />
         
@@ -293,7 +474,9 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
           width: '500px',
           height: '500px',
           borderRadius: '50%',
-          background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.15) 100%)',
+          background: darkMode 
+            ? 'radial-gradient(circle, rgba(255, 179, 0, 0.1) 0%, rgba(255, 213, 79, 0.15) 100%)'
+            : 'radial-gradient(circle, rgba(255, 152, 0, 0.1) 0%, rgba(255, 193, 7, 0.15) 100%)',
           zIndex: 0,
         }} />
         
@@ -304,8 +487,8 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
                 p: { xs: 3, sm: 4, md: 5 },
                 borderRadius: '24px',
                 backdropFilter: 'blur(12px)',
-                backgroundColor: 'rgba(255, 255, 255, 0.65)',
-                border: '1px solid rgba(255, 255, 255, 0.5)',
+                backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.8)',
+                border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 179, 0, 0.3)',
                 boxShadow: '0 20px 50px rgba(31, 41, 55, 0.12)',
                 position: 'relative',
                 overflow: 'hidden',
@@ -318,7 +501,9 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
                 left: 0,
                 right: 0,
                 height: '4px',
-                background: 'linear-gradient(to right, transparent, rgba(255, 255, 255, 0.8), transparent)',
+                background: darkMode 
+                  ? 'linear-gradient(to right, transparent, rgba(255, 213, 79, 0.5), transparent)'
+                  : 'linear-gradient(to right, transparent, rgba(255, 193, 7, 0.7), transparent)',
               }} />
               
               <Box
@@ -354,7 +539,7 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
                         width: '100%',
                         height: '100%',
                         borderRadius: '50%',
-                        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%)',
+                        background: 'linear-gradient(135deg, rgba(255, 193, 7, 0.2) 0%, rgba(255, 152, 0, 0.2) 100%)',
                         backdropFilter: 'blur(4px)',
                         display: 'flex',
                         alignItems: 'center',
@@ -364,8 +549,8 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
                       <LockOutlinedIcon 
                         sx={{ 
                           fontSize: 36, 
-                          color: '#6366f1',
-                          filter: 'drop-shadow(0 2px 4px rgba(99, 102, 241, 0.3))'
+                          color: '#ff9800',
+                          filter: 'drop-shadow(0 2px 4px rgba(255, 152, 0, 0.3))'
                         }} 
                       />
                     </Box>
@@ -378,7 +563,7 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
                   sx={{
                     mb: 1,
                     fontWeight: 800,
-                    background: 'linear-gradient(to right, #6366f1, #8b5cf6)',
+                    background: 'linear-gradient(to right, #ffc107, #ff9800)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                     letterSpacing: '-0.5px',
@@ -424,7 +609,7 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
                       }
                     </Grid>
                     <Grid item xs={12}>
-                      <CaptchaWidget ref={captchaRef} onSuccess={setCaptchaToken} />
+                      <CaptchaWidget ref={captchaRef} onSuccess={setCaptchaToken} hideRefreshButton />
                     </Grid>
                   </Grid>
                   
@@ -508,9 +693,10 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
               sx={{ 
                 width: '100%',
                 backdropFilter: 'blur(10px)',
-                backgroundColor: 'rgba(255, 255, 255, 0.85)',
+                backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.9)' : 'rgba(255, 255, 255, 0.9)',
                 boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
                 borderRadius: '12px',
+                color: darkMode ? '#f5f5f5' : '#212121'
               }}
             >
               {err}
@@ -523,14 +709,14 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
               sx: {
                 borderRadius: '24px',
                 backdropFilter: 'blur(12px)',
-                backgroundColor: 'rgba(255, 255, 255, 0.85)',
-                border: '1px solid rgba(255, 255, 255, 0.5)',
+                backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.85)' : 'rgba(255, 255, 255, 0.9)',
+                border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 179, 0, 0.3)',
                 boxShadow: '0 20px 50px rgba(31, 41, 55, 0.12)',
               }
             }}
           >
             <DialogTitle sx={{ 
-              background: 'linear-gradient(to right, #6366f1, #8b5cf6)',
+              background: 'linear-gradient(to right, #ffc107, #ff9800)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
               fontWeight: 700,
@@ -538,7 +724,7 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
               邮件已发送
             </DialogTitle>
             <DialogContent>
-              <Typography>
+              <Typography sx={{ color: darkMode ? '#e0e0e0' : '#424242' }}>
                 请到收件箱（或垃圾箱）点击验证链接以继续。
               </Typography>
             </DialogContent>
@@ -546,13 +732,13 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
               <Button 
                 onClick={handleClose}
                 sx={{
-                  background: 'linear-gradient(to right, #6366f1, #8b5cf6)',
+                  background: 'linear-gradient(to right, #ffc107, #ff9800)',
                   color: 'white',
                   borderRadius: '12px',
                   fontWeight: 600,
                   '&:hover': {
                     transform: 'translateY(-2px)',
-                    boxShadow: '0 6px 12px rgba(79, 70, 229, 0.2)',
+                    boxShadow: '0 6px 12px rgba(255, 179, 0, 0.3)',
                   },
                 }}
               >

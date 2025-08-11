@@ -29,12 +29,12 @@ function Root() {
         <Route path="/forgot" element={<Forgot />} />
 
         {/* 需要登录的路由组 */}
-        <Route element={<NeedLogin><Outlet /></NeedLogin>}>
+        {<Route element={<NeedLogin><Outlet /></NeedLogin>}>&rbrace;
           <Route path="/profile" element={<Profile />} />
           <Route path="/textures" element={<Textures />} />
           <Route path="/security" element={<Security />} />
-        </Route>
-
+        </Route>}
+        
         {/* 需要管理员权限的路由组 */}
         <Route element={<NeedLogin needAdmin><Outlet /></NeedLogin>}>
           <Route path="/admin/user" element={<UserAdmin />} />

@@ -413,35 +413,6 @@ export default function Forgot() {
             zIndex: 0,
           }} />
 
-          {/* 导航栏 */}
-          <Box sx={{
-            p: 3,
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            position: 'relative',
-            zIndex: 1,
-            backgroundColor: darkMode ? 'inherit' : '#ffffff',
-          }}>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
-              <Avatar sx={{ 
-                bgcolor: 'primary.main', 
-                mr: 1.5,
-                color: darkMode ? '#000' : '#000'
-              }}>
-                <LockOutlined />
-              </Avatar>
-              <Typography variant="h6" sx={{ 
-                fontWeight: 800,
-                background: 'linear-gradient(to right, #ffc107, #ff9800)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}>
-                Corona Studio
-              </Typography>
-            </Box>
-          </Box>
-
           <Container component="main" maxWidth="sm" sx={{ 
             flex: 1,
             display: 'flex',
@@ -456,6 +427,7 @@ export default function Forgot() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
               sx={{
+                mt: 5,
                 p: 4,
                 borderRadius: '24px',
                 backdropFilter: 'blur(12px)',
