@@ -30,7 +30,7 @@ import {
 import { useState, useEffect, useRef } from 'react';
 import { Chip, Avatar } from '@mui/material';
 
-// 浅色主题
+// 浅色主题 - 稍微调整字体大小
 const lightTheme = createTheme({
   palette: {
     primary: {
@@ -66,9 +66,17 @@ const lightTheme = createTheme({
     h3: {
       fontWeight: 900,
       letterSpacing: '-0.5px',
+      fontSize: '1.65rem',
     },
     h6: {
       fontWeight: 600,
+      fontSize: '1.1rem',
+    },
+    body1: {
+      fontSize: '0.9625rem',
+    },
+    body2: {
+      fontSize: '0.825rem',
     },
   },
   components: {
@@ -86,16 +94,17 @@ const lightTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: '16px',
-          fontWeight: 700,
+          borderRadius: '12px',
+          fontWeight: 600,
           textTransform: 'none',
-          padding: '14px 28px',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: '0 4px 20px rgba(255, 193, 7, 0.3)',
-          fontSize: '0.95rem',
+          padding: '8.8px 17.6px',
+          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+          boxShadow: '0 2px 10px rgba(255, 193, 7, 0.3)',
+          fontSize: '0.88rem',
+          minHeight: '39.6px',
           '&:hover': {
-            transform: 'translateY(-3px)',
-            boxShadow: '0 8px 25px rgba(255, 193, 7, 0.4)',
+            transform: 'translateY(-1px)',
+            boxShadow: '0 4px 15px rgba(255, 193, 7, 0.4)',
           },
         },
         contained: {
@@ -107,11 +116,11 @@ const lightTheme = createTheme({
         outlined: {
           borderColor: 'rgba(255, 193, 7, 0.5)',
           color: '#ff9800',
-          borderWidth: '2px',
+          borderWidth: '1px',
           '&:hover': {
             borderColor: '#ff9800',
             backgroundColor: 'rgba(255, 193, 7, 0.08)',
-            borderWidth: '2px',
+            borderWidth: '1px',
           },
         },
       },
@@ -119,15 +128,14 @@ const lightTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          borderRadius: '28px',
-          backdropFilter: 'blur(20px)',
+          borderRadius: '17.6px',
           backgroundColor: 'rgba(255, 255, 255, 0.95)',
           border: '1px solid rgba(255, 193, 7, 0.2)',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08)',
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
-            transform: 'translateY(-8px)',
-            boxShadow: '0 30px 80px rgba(0, 0, 0, 0.12)',
+            transform: 'translateY(-4px)',
+            boxShadow: '0 12px 32px rgba(0, 0, 0, 0.12)',
             border: '1px solid rgba(255, 193, 7, 0.4)',
           },
         },
@@ -136,19 +144,17 @@ const lightTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: '28px',
-          backdropFilter: 'blur(20px)',
+          borderRadius: '17.6px',
           backgroundColor: 'rgba(255, 255, 255, 0.95)',
           border: '1px solid rgba(255, 193, 7, 0.2)',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.08)',
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.08)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           overflow: 'hidden',
           '&:hover': {
-            transform: 'translateY(-8px)',
-            boxShadow: '0 30px 80px rgba(0, 0, 0, 0.12)',
+            transform: 'translateY(-4px)',
+            boxShadow: '0 12px 32px rgba(0, 0, 0, 0.12)',
             border: '1px solid rgba(255, 193, 7, 0.4)',
           },
-          // 添加最大宽度以防止溢出
           maxWidth: '100%',
         },
       },
@@ -156,14 +162,14 @@ const lightTheme = createTheme({
     MuiCardHeader: {
       styleOverrides: {
         root: {
-          padding: '24px 24px 16px 24px',
+          padding: '17.6px',
           '& .MuiCardHeader-title': {
-            fontWeight: 800,
+            fontWeight: 700,
             color: '#ff9800',
-            fontSize: '1.3rem',
+            fontSize: '1.1rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
+            gap: '8.8px',
           },
         },
       },
@@ -171,7 +177,7 @@ const lightTheme = createTheme({
     MuiCardContent: {
       styleOverrides: {
         root: {
-          padding: '16px 24px 24px 24px',
+          padding: '13.2px 17.6px',
         },
       },
     },
@@ -180,25 +186,26 @@ const lightTheme = createTheme({
         root: {
           backgroundColor: '#fff9c4',
           color: '#ff9800',
-          boxShadow: '0 8px 25px rgba(255, 193, 7, 0.3)',
-          width: 56,
-          height: 56,
+          boxShadow: '0 4px 12px rgba(255, 193, 7, 0.3)',
+          width: 44,
+          height: 44,
         },
       },
     },
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: '12px',
+          borderRadius: '8.8px',
           fontWeight: 600,
-          fontSize: '0.85rem',
+          fontSize: '0.77rem',
+          height: '26.4px',
         },
       },
     },
   },
 });
 
-// 深色主题
+// 深色主题 - 稍微调整字体大小
 const darkTheme = createTheme({
   palette: {
     mode: 'dark',
@@ -235,9 +242,17 @@ const darkTheme = createTheme({
     h3: {
       fontWeight: 900,
       letterSpacing: '-0.5px',
+      fontSize: '1.65rem',
     },
     h6: {
       fontWeight: 600,
+      fontSize: '1.1rem',
+    },
+    body1: {
+      fontSize: '0.9625rem',
+    },
+    body2: {
+      fontSize: '0.825rem',
     },
   },
   components: {
@@ -255,16 +270,17 @@ const darkTheme = createTheme({
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: '16px',
-          fontWeight: 700,
+          borderRadius: '12px',
+          fontWeight: 600,
           textTransform: 'none',
-          padding: '14px 28px',
-          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-          boxShadow: '0 4px 20px rgba(255, 213, 79, 0.3)',
-          fontSize: '0.95rem',
+          padding: '8.8px 17.6px',
+          transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+          boxShadow: '0 2px 10px rgba(255, 213, 79, 0.3)',
+          fontSize: '0.88rem',
+          minHeight: '39.6px',
           '&:hover': {
-            transform: 'translateY(-3px)',
-            boxShadow: '0 8px 25px rgba(255, 213, 79, 0.4)',
+            transform: 'translateY(-1px)',
+            boxShadow: '0 4px 15px rgba(255, 213, 79, 0.4)',
           },
         },
         contained: {
@@ -276,11 +292,11 @@ const darkTheme = createTheme({
         outlined: {
           borderColor: 'rgba(255, 213, 79, 0.5)',
           color: '#ffd54f',
-          borderWidth: '2px',
+          borderWidth: '1px',
           '&:hover': {
             borderColor: '#ffd54f',
             backgroundColor: 'rgba(255, 213, 79, 0.08)',
-            borderWidth: '2px',
+            borderWidth: '1px',
           },
         },
       },
@@ -288,15 +304,14 @@ const darkTheme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          borderRadius: '28px',
-          backdropFilter: 'blur(20px)',
+          borderRadius: '17.6px',
           backgroundColor: 'rgba(45, 45, 45, 0.95)',
           border: '1px solid rgba(255, 213, 79, 0.2)',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           '&:hover': {
-            transform: 'translateY(-8px)',
-            boxShadow: '0 30px 80px rgba(0, 0, 0, 0.4)',
+            transform: 'translateY(-4px)',
+            boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4)',
             border: '1px solid rgba(255, 213, 79, 0.4)',
           },
         },
@@ -305,19 +320,17 @@ const darkTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          borderRadius: '28px',
-          backdropFilter: 'blur(20px)',
+          borderRadius: '17.6px',
           backgroundColor: 'rgba(45, 45, 45, 0.95)',
           border: '1px solid rgba(255, 213, 79, 0.2)',
-          boxShadow: '0 20px 60px rgba(0, 0, 0, 0.3)',
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+          boxShadow: '0 8px 24px rgba(0, 0, 0, 0.3)',
+          transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
           overflow: 'hidden',
           '&:hover': {
-            transform: 'translateY(-8px)',
-            boxShadow: '0 30px 80px rgba(0, 0, 0, 0.4)',
+            transform: 'translateY(-4px)',
+            boxShadow: '0 12px 32px rgba(0, 0, 0, 0.4)',
             border: '1px solid rgba(255, 213, 79, 0.4)',
           },
-          // 添加最大宽度以防止溢出
           maxWidth: '100%',
         },
       },
@@ -325,14 +338,14 @@ const darkTheme = createTheme({
     MuiCardHeader: {
       styleOverrides: {
         root: {
-          padding: '24px 24px 16px 24px',
+          padding: '17.6px',
           '& .MuiCardHeader-title': {
-            fontWeight: 800,
+            fontWeight: 700,
             color: '#ffd54f',
-            fontSize: '1.3rem',
+            fontSize: '1.1rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '12px',
+            gap: '8.8px',
           },
         },
       },
@@ -340,7 +353,7 @@ const darkTheme = createTheme({
     MuiCardContent: {
       styleOverrides: {
         root: {
-          padding: '16px 24px 24px 24px',
+          padding: '13.2px 17.6px',
         },
       },
     },
@@ -349,18 +362,19 @@ const darkTheme = createTheme({
         root: {
           backgroundColor: 'rgba(255, 213, 79, 0.2)',
           color: '#ffd54f',
-          boxShadow: '0 8px 25px rgba(255, 213, 79, 0.3)',
-          width: 56,
-          height: 56,
+          boxShadow: '0 4px 12px rgba(255, 213, 79, 0.3)',
+          width: 44,
+          height: 44,
         },
       },
     },
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: '12px',
+          borderRadius: '8.8px',
           fontWeight: 600,
-          fontSize: '0.85rem',
+          fontSize: '0.77rem',
+          height: '26.4px',
         },
       },
     },
@@ -435,11 +449,11 @@ const Profile = function Profile() {
                 left: -1000px;
                 background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
                 color: #000;
-                padding: 8px 16px;
-                border-radius: 16px;
-                font-weight: 700;
-                font-size: 14px;
-                box-shadow: 0 4px 20px rgba(255, 193, 7, 0.3);
+                padding: 6.6px 13.2px;
+                border-radius: 13.2px;
+                font-weight: 600;
+                font-size: 13.2px;
+                box-shadow: 0 2px 10px rgba(255, 193, 7, 0.3);
             `;
             document.body.appendChild(dragImage);
             e.dataTransfer.setDragImage(dragImage, 0, 0);
@@ -471,503 +485,525 @@ const Profile = function Profile() {
     return (
         <ThemeProvider theme={currentTheme}>
             <CssBaseline />
+            {/* 背景容器 - 平铺整个页面 */}
             <Box sx={{
                 minHeight: '100vh',
+                width: '100%',
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                background: darkMode 
+                    ? 'radial-gradient(circle at 10% 20%, rgba(255, 213, 79, 0.1) 0%, rgba(255, 179, 0, 0.05) 20%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(255, 179, 0, 0.1) 0%, rgba(255, 213, 79, 0.05) 20%, transparent 40%), #1a1a1a'
+                    : 'radial-gradient(circle at 10% 20%, rgba(255, 193, 7, 0.1) 0%, rgba(255, 152, 0, 0.05) 20%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(255, 152, 0, 0.1) 0%, rgba(255, 193, 7, 0.05) 20%, transparent 40%), #fafafa',
+                zIndex: 0,
+            }} />
+            
+            {/* 内容容器 */}
+            <Box sx={{
+                minHeight: '100vh',
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'center',
                 position: 'relative',
                 overflow: 'hidden',
-                p: { xs: 2, md: 4 },
+                pt: { xs: 2, sm: 4, md: 6 },
+                zIndex: 1,
             }}>
-                {/* 装饰性背景元素 */}
+                {/* 整体缩放容器 - 71.5% (65% * 1.1 = 71.5%) */}
                 <Box sx={{
-                    position: 'absolute',
-                    top: '-15%',
-                    right: '-15%',
-                    width: '600px',
-                    height: '600px',
-                    borderRadius: '50%',
-                    background: darkMode 
-                        ? 'radial-gradient(circle, rgba(255, 213, 79, 0.08) 0%, rgba(255, 179, 0, 0.12) 100%)' 
-                        : 'radial-gradient(circle, rgba(255, 193, 7, 0.12) 0%, rgba(255, 152, 0, 0.08) 100%)',
-                    zIndex: 0,
-                    animation: 'float 6s ease-in-out infinite',
-                }} />
-                
-                <Box sx={{
-                    position: 'absolute',
-                    bottom: '-20%',
-                    left: '-10%',
-                    width: '700px',
-                    height: '700px',
-                    borderRadius: '50%',
-                    background: darkMode 
-                        ? 'radial-gradient(circle, rgba(255, 179, 0, 0.08) 0%, rgba(255, 213, 79, 0.12) 100%)'
-                        : 'radial-gradient(circle, rgba(255, 152, 0, 0.08) 0%, rgba(255, 193, 7, 0.12) 100%)',
-                    zIndex: 0,
-                    animation: 'float 8s ease-in-out infinite reverse',
-                }} />
-
-                {/* 页面标题 */}
-                <AnimatedBox
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, ease: "easeOut" }}
-                    sx={{ 
-                        textAlign: 'center',
-                        mb: 6,
-                        position: 'relative',
-                        zIndex: 1,
-                    }}
-                >
+                    transform: 'scale(0.715)',
+                    transformOrigin: 'center top',
+                    width: 'calc(100% / 0.715)',
+                    minHeight: 'calc(100vh / 0.715)',
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    justifyContent: 'center',
+                    position: 'relative',
+                }}>
                     <Box sx={{
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        mb: 3,
-                        flexDirection: { xs: 'column', sm: 'row' },
-                        gap: { xs: 2, sm: 3 },
-                    }}>
-                        <Avatar sx={{ 
-                            width: 80, 
-                            height: 80, 
-                            mr: { sm: 3 },
-                            background: 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)',
-                            boxShadow: '0 12px 40px rgba(255, 193, 7, 0.4)',
-                        }}>
-                            <AccountCircle sx={{ fontSize: 50 }} />
-                        </Avatar>
-                        <Box>
-                            <Typography variant="h3" sx={{ 
-                                fontWeight: 900,
-                                lineHeight: 1.1,
-                                mb: 1,
-                                background: 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)',
-                                WebkitBackgroundClip: 'text',
-                                WebkitTextFillColor: 'transparent',
-                                fontSize: { xs: '2rem', md: '3rem' }
-                            }}>
-                                个人信息
-                            </Typography>
-                            <Typography variant="h6" sx={{ 
-                                color: 'text.secondary',
-                                fontWeight: 500,
-                                fontSize: { xs: '1rem', md: '1.2rem' }
-                            }}>
-                                管理您的账户和皮肤设置
-                            </Typography>
-                        </Box>
-                    </Box>
-                    
-                    {/* 状态指示器 */}
-                    <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2, flexWrap: 'wrap', mt: 2 }}>
-                        <Chip 
-                            icon={<VerifiedUser />} 
-                            label="账户已验证" 
-                            color="success" 
-                            variant="outlined"
-                            sx={{ 
-                                borderRadius: '20px',
-                                fontWeight: 600,
-                                borderWidth: '2px',
-                            }}
-                        />
-                        <Chip 
-                            icon={<Star />} 
-                            label="高级用户" 
-                            color="warning" 
-                            variant="outlined"
-                            sx={{ 
-                                borderRadius: '20px',
-                                fontWeight: 600,
-                                borderWidth: '2px',
-                            }}
-                        />
-                    </Box>
-                </AnimatedBox>
-
-                <Box 
-                    sx={{
-                        display: "grid", 
-                        gap: "2.5em", 
-                        gridTemplateAreas: {
-                            lg: '"a b" "c b"',
-                            md: '"a" "b" "c"',
-                            xs: '"a" "b" "c"'
-                        }, 
-                        gridTemplateColumns: { lg: "1fr 1fr" },
+                        minHeight: '100vh',
                         position: 'relative',
-                        zIndex: 1,
-                        maxWidth: '1400px',
-                        mx: 'auto',
-                        width: '100%', // 确保不超过容器宽度
-                    }}
-                    onDragOver={handleDragOver}
-                >
-                    {/* 账户信息卡片 */}
-                    <AnimatedCard
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-                        sx={{ gridArea: "a", width: '100%' }}
-                    >
-                        <CardHeader 
-                            title={
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                                    <Person sx={{ 
-                                        color: 'primary.main',
-                                        fontSize: '1.5rem',
-                                    }} />
-                                    账户信息
-                                </Box>
-                            }
-                        />
-                        <CardContent>
-                            <Box sx={{ 
-                                display: "grid", 
-                                gridTemplateColumns: { sm: "auto 1fr", xs: "1fr" }, 
-                                gap: 3,
-                                alignItems: 'center'
-                            }}>
-                                <Typography sx={{ 
-                                    fontWeight: 700, 
-                                    color: 'text.secondary',
-                                    fontSize: '1rem',
-                                }}>
-                                    用户名
-                                </Typography>
-                                <Box sx={{
-                                    p: 2,
-                                    borderRadius: '16px',
-                                    backgroundColor: darkMode ? 'rgba(255, 179, 0, 0.08)' : 'rgba(255, 193, 7, 0.08)',
-                                    border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 193, 7, 0.2)',
-                                    position: 'relative',
-                                    overflow: 'hidden',
-                                    wordBreak: 'break-word', // 防止长用户名溢出
-                                }}>
-                                    <Typography sx={{ 
-                                        fontWeight: 700, 
-                                        wordBreak: 'break-word',
-                                        fontSize: '1.1rem',
-                                        color: 'text.primary',
-                                    }}>
-                                        {userinfo.name}
-                                    </Typography>
-                                    <Box sx={{
-                                        position: 'absolute',
-                                        top: 0,
-                                        left: 0,
-                                        right: 0,
-                                        height: '2px',
-                                        background: 'linear-gradient(90deg, #ffc107, #ff9800)',
-                                    }} />
-                                </Box>
-                                
-                                <Typography sx={{ 
-                                    fontWeight: 700, 
-                                    color: 'text.secondary',
-                                    fontSize: '1rem',
-                                }}>
-                                    UUID
-                                </Typography>
-                                <Box sx={{
-                                    p: 2,
-                                    borderRadius: '16px',
-                                    backgroundColor: darkMode ? 'rgba(255, 179, 0, 0.08)' : 'rgba(255, 193, 7, 0.08)',
-                                    border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 193, 7, 0.2)',
-                                    position: 'relative',
-                                    overflow: 'hidden',
-                                }}>
-                                    <Typography sx={{ 
-                                        fontFamily: 'monospace', 
-                                        fontSize: '0.9rem',
-                                        wordBreak: 'break-all',
-                                        color: darkMode ? '#ffd54f' : '#ff9800',
-                                        fontWeight: 600,
-                                    }}>
-                                        {userinfo.uuid}
-                                    </Typography>
-                                    <Box sx={{
-                                        position: 'absolute',
-                                        top: 0,
-                                        left: 0,
-                                        right: 0,
-                                        height: '2px',
-                                        background: 'linear-gradient(90deg, #ffc107, #ff9800)',
-                                    }} />
-                                </Box>
-                            </Box>
-                        </CardContent>
-                    </AnimatedCard>
-
-                    {/* 皮肤预览卡片 */}
-                    <AnimatedCard
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-                        sx={{ gridArea: "b", width: '100%' }}
-                    >
-                        <CardHeader 
-                            title={
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                                    <Palette sx={{ 
-                                        color: 'primary.main',
-                                        fontSize: '1.5rem',
-                                    }} />
-                                    皮肤预览
-                                </Box>
-                            }
-                        />
-                        <CardContent sx={{ 
-                            display: "flex", 
-                            justifyContent: 'center', 
-                            alignItems: 'center', 
-                            flexDirection: 'column', 
-                            gap: 3,
-                            p: { xs: 2, sm: 4 },
-                        }}>
-                            <Box sx={{
-                                p: { xs: 2, sm: 4 },
-                                borderRadius: '24px',
-                                backgroundColor: darkMode ? 'rgba(255, 179, 0, 0.08)' : 'rgba(255, 193, 7, 0.08)',
-                                border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 193, 7, 0.2)',
-                                boxShadow: '0 16px 48px rgba(255, 193, 7, 0.15)',
-                                transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-                                position: 'relative',
-                                overflow: 'hidden',
-                                '&:hover': {
-                                    transform: 'translateY(-8px)',
-                                    boxShadow: '0 24px 64px rgba(255, 193, 7, 0.25)',
-                                },
-                                '&::before': {
-                                    content: '""',
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    height: '3px',
-                                    background: 'linear-gradient(90deg, #ffc107, #ff9800)',
-                                },
-                                width: '100%',
-                                maxWidth: { xs: '100%', sm: '300px' }, // 限制最大宽度
-                            }}>
-                                <SkinViewUUID uuid={userinfo?.uuid ?? ""} width={220} height={220} />
-                            </Box>
-                            <Typography variant="body1" sx={{ 
-                                color: 'text.secondary', 
+                        overflow: 'hidden',
+                        p: { xs: 1.1, md: 2.2 },
+                        display: 'flex',
+                        flexDirection: 'column',
+                        width: '100%',
+                        pt: { xs: 2.2, sm: 4.4, md: 6.6 },
+                    }}>
+                        {/* 页面标题 */}
+                        <AnimatedBox
+                            initial={{ opacity: 0, y: 22 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.4, ease: "easeOut" }}
+                            sx={{ 
                                 textAlign: 'center',
-                                fontWeight: 600,
-                                fontSize: '1rem',
-                            }}>
-                                您当前的皮肤预览
-                            </Typography>
-                        </CardContent>
-                        <CardActions sx={{ justifyContent: 'center', p: 3 }}>
-                            <Button 
-                                onClick={() => navigate('/textures')} 
-                                variant="contained"
-                                startIcon={<PaletteOutlined />}
-                                sx={{ 
-                                    borderRadius: '20px',
-                                    fontWeight: 700,
-                                    px: 4,
-                                    py: 1.5,
-                                    fontSize: '1rem',
-                                }}
-                            >
-                                更换皮肤
-                            </Button>
-                        </CardActions>
-                    </AnimatedCard>
-
-                    {/* 启动器设置卡片 */}
-                    <AnimatedCard
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: 0.3, ease: "easeOut" }}
-                        sx={{ gridArea: "c", width: '100%' }}
-                    >
-                        <CardHeader 
-                            title={
-                                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-                                    <Settings sx={{ 
-                                        color: 'primary.main',
-                                        fontSize: '1.5rem',
-                                    }} />
-                                    启动器设置
-                                </Box>
-                            }
-                        />
-                        <CardContent>
-                            <Typography sx={{ 
-                                fontWeight: 700, 
-                                color: 'text.secondary', 
-                                mb: 2,
-                                fontSize: '1.1rem',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: 1,
-                            }}>
-                                <Code sx={{ fontSize: '1.2rem' }} />
-                                本站 Yggdrasil API 地址
-                            </Typography>
-                            
-                            {/* API 地址显示 */}
-                            <Box sx={{
-                                p: 3,
-                                borderRadius: '16px',
-                                backgroundColor: darkMode ? 'rgba(255, 179, 0, 0.08)' : 'rgba(255, 193, 7, 0.08)',
-                                border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 193, 7, 0.2)',
-                                fontFamily: 'monospace',
-                                fontSize: '0.9rem',
-                                wordBreak: 'break-all',
+                                mb: 4.4,
                                 position: 'relative',
-                                boxShadow: '0 8px 24px rgba(255, 193, 7, 0.1)',
-                                transition: 'all 0.3s ease',
-                                overflow: 'hidden',
-                                '&:hover': {
-                                    boxShadow: '0 12px 32px rgba(255, 193, 7, 0.2)',
-                                },
-                                '&::before': {
-                                    content: '""',
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    right: 0,
-                                    height: '3px',
-                                    background: 'linear-gradient(90deg, #ffc107, #ff9800)',
-                                },
-                                width: '100%', // 确保不超过容器宽度
+                                zIndex: 1,
+                            }}
+                        >
+                            <Box sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                mb: 2.2,
+                                flexDirection: { xs: 'column', sm: 'row' },
+                                gap: { xs: 1.1, sm: 2.2 },
                             }}>
-                                <code style={{ 
-                                    color: darkMode ? '#ffd54f' : '#ff9800',
-                                    fontSize: '0.9rem',
-                                    fontWeight: 600,
-                                    lineHeight: 1.6,
+                                <Avatar sx={{ 
+                                    width: 61.6,
+                                    height: 61.6,
+                                    mr: { sm: 2.2 },
+                                    background: 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)',
+                                    boxShadow: '0 6px 20px rgba(255, 193, 7, 0.4)',
+                                    zIndex: 2,
                                 }}>
-                                    {getYggRoot()}
-                                </code>
+                                    <AccountCircle sx={{ fontSize: 39.6 }} />
+                                </Avatar>
+                                <Box>
+                                    <Typography variant="h3" sx={{ 
+                                        fontWeight: 900,
+                                        lineHeight: 1.1,
+                                        mb: 0.55,
+                                        background: 'linear-gradient(135deg, #ffc107 0%, #ff9800 100%)',
+                                        WebkitBackgroundClip: 'text',
+                                        WebkitTextFillColor: 'transparent',
+                                        fontSize: { xs: '1.65rem', md: '2.2rem' },
+                                        zIndex: 2,
+                                        position: 'relative',
+                                    }}>
+                                        个人信息
+                                    </Typography>
+                                    <Typography variant="h6" sx={{ 
+                                        color: 'text.secondary',
+                                        fontWeight: 500,
+                                        fontSize: { xs: '0.9625rem', md: '1.1rem' },
+                                        zIndex: 2,
+                                        position: 'relative',
+                                    }}>
+                                        账户和皮肤设置
+                                    </Typography>
+                                </Box>
                             </Box>
                             
-                            {/* 使用提示 */}
-                            <Typography variant="body2" sx={{ 
-                                color: 'text.secondary', 
-                                mt: 3,
+                            {/* 状态指示器 */}
+                            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1.1, flexWrap: 'wrap', mt: 1.1, zIndex: 2, position: 'relative' }}>
+                                <Chip 
+                                    icon={<VerifiedUser sx={{ fontSize: '0.88rem !important' }} />}
+                                    label="已验证" 
+                                    color="success" 
+                                    variant="outlined"
+                                    sx={{ 
+                                        borderRadius: '13.2px',
+                                        fontWeight: 600,
+                                        borderWidth: '1px',
+                                        fontSize: '0.715rem',
+                                        height: '22px',
+                                        zIndex: 2,
+                                    }}
+                                />
+                                <Chip 
+                                    icon={<Star sx={{ fontSize: '0.88rem !important' }} />}
+                                    label="高级" 
+                                    color="warning" 
+                                    variant="outlined"
+                                    sx={{ 
+                                        borderRadius: '13.2px',
+                                        fontWeight: 600,
+                                        borderWidth: '1px',
+                                        fontSize: '0.715rem',
+                                        height: '22px',
+                                        zIndex: 2,
+                                    }}
+                                />
+                            </Box>
+                        </AnimatedBox>
+
+                        <Box 
+                            sx={{
+                                display: "grid", 
+                                gap: "1.65em",
+                                gridTemplateAreas: {
+                                    lg: '"a b" "c b"',
+                                    md: '"a" "b" "c"',
+                                    xs: '"a" "b" "c"'
+                                }, 
+                                gridTemplateColumns: { lg: "1fr 1fr" },
+                                position: 'relative',
+                                zIndex: 1,
+                                maxWidth: '1100px',
+                                mx: 'auto',
+                                width: '100%',
+                            }}
+                            onDragOver={handleDragOver}
+                        >
+                            {/* 账户信息卡片 */}
+                            <AnimatedCard
+                                initial={{ opacity: 0, y: 22 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.11, ease: "easeOut" }}
+                                sx={{ gridArea: "a", width: '100%' }}
+                            >
+                                <CardHeader 
+                                    title={
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.1 }}>
+                                            <Person sx={{ 
+                                                color: 'primary.main',
+                                                fontSize: '1.32rem',
+                                            }} />
+                                            账户信息
+                                        </Box>
+                                    }
+                                    sx={{ pb: 1.1 }}
+                                />
+                                <CardContent sx={{ pt: 0 }}>
+                                    <Box sx={{ 
+                                        display: "grid", 
+                                        gridTemplateColumns: { sm: "auto 1fr", xs: "1fr" }, 
+                                        gap: 2.2,
+                                        alignItems: 'center'
+                                    }}>
+                                        <Typography sx={{ 
+                                            fontWeight: 600, 
+                                            color: 'text.secondary',
+                                            fontSize: '0.9625rem',
+                                        }}>
+                                            用户名
+                                        </Typography>
+                                        <Box sx={{
+                                            p: 1.65,
+                                            borderRadius: '13.2px',
+                                            backgroundColor: darkMode ? 'rgba(255, 179, 0, 0.08)' : 'rgba(255, 193, 7, 0.08)',
+                                            border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 193, 7, 0.2)',
+                                            position: 'relative',
+                                            overflow: 'hidden',
+                                            wordBreak: 'break-word',
+                                        }}>
+                                            <Typography sx={{ 
+                                                fontWeight: 600, 
+                                                wordBreak: 'break-word',
+                                                fontSize: '1.045rem',
+                                                color: 'text.primary',
+                                            }}>
+                                                {userinfo.name}
+                                            </Typography>
+                                            <Box sx={{
+                                                position: 'absolute',
+                                                top: 0,
+                                                left: 0,
+                                                right: 0,
+                                                height: '1.1px',
+                                                background: 'linear-gradient(90deg, #ffc107, #ff9800)',
+                                            }} />
+                                        </Box>
+                                        
+                                        <Typography sx={{ 
+                                            fontWeight: 600, 
+                                            color: 'text.secondary',
+                                            fontSize: '0.9625rem',
+                                        }}>
+                                            UUID
+                                        </Typography>
+                                        <Box sx={{
+                                            p: 1.65,
+                                            borderRadius: '13.2px',
+                                            backgroundColor: darkMode ? 'rgba(255, 179, 0, 0.08)' : 'rgba(255, 193, 7, 0.08)',
+                                            border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 193, 7, 0.2)',
+                                            position: 'relative',
+                                            overflow: 'hidden',
+                                        }}>
+                                            <Typography sx={{ 
+                                                fontFamily: 'monospace', 
+                                                fontSize: '0.825rem',
+                                                wordBreak: 'break-all',
+                                                color: darkMode ? '#ffd54f' : '#ff9800',
+                                                fontWeight: 500,
+                                            }}>
+                                                {userinfo.uuid}
+                                            </Typography>
+                                            <Box sx={{
+                                                position: 'absolute',
+                                                top: 0,
+                                                left: 0,
+                                                right: 0,
+                                                height: '1.1px',
+                                                background: 'linear-gradient(90deg, #ffc107, #ff9800)',
+                                            }} />
+                                        </Box>
+                                    </Box>
+                                </CardContent>
+                            </AnimatedCard>
+
+                            {/* 皮肤预览卡片 */}
+                            <AnimatedCard
+                                initial={{ opacity: 0, y: 22 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.22, ease: "easeOut" }}
+                                sx={{ gridArea: "b", width: '100%' }}
+                            >
+                                <CardHeader 
+                                    title={
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.1 }}>
+                                            <Palette sx={{ 
+                                                color: 'primary.main',
+                                                fontSize: '1.32rem',
+                                            }} />
+                                            皮肤预览
+                                        </Box>
+                                    }
+                                    sx={{ pb: 1.1 }}
+                                />
+                                <CardContent sx={{ 
+                                    display: "flex", 
+                                    justifyContent: 'center', 
+                                    alignItems: 'center', 
+                                    flexDirection: 'column', 
+                                    gap: 2.2,
+                                    p: { xs: 1.1, sm: 2.2 },
+                                    pt: 0,
+                                }}>
+                                    <Box sx={{
+                                        p: { xs: 1.1, sm: 2.2 },
+                                        borderRadius: '17.6px',
+                                        backgroundColor: darkMode ? 'rgba(255, 179, 0, 0.08)' : 'rgba(255, 193, 7, 0.08)',
+                                        border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 193, 7, 0.2)',
+                                        boxShadow: '0 8px 24px rgba(255, 193, 7, 0.15)',
+                                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                        position: 'relative',
+                                        overflow: 'hidden',
+                                        '&:hover': {
+                                            transform: 'translateY(-4px)',
+                                            boxShadow: '0 12px 32px rgba(255, 193, 7, 0.25)',
+                                        },
+                                        '&::before': {
+                                            content: '""',
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                            height: '2.2px',
+                                            background: 'linear-gradient(90deg, #ffc107, #ff9800)',
+                                        },
+                                        width: '100%',
+                                        maxWidth: { xs: '100%', sm: '220px' },
+                                    }}>
+                                        <SkinViewUUID uuid={userinfo?.uuid ?? ""} width={165} height={165} />
+                                    </Box>
+                                    <Typography variant="body2" sx={{ 
+                                        color: 'text.secondary', 
+                                        textAlign: 'center',
+                                        fontWeight: 500,
+                                        fontSize: '0.9625rem',
+                                    }}>
+                                        当前皮肤
+                                    </Typography>
+                                </CardContent>
+                                <CardActions sx={{ justifyContent: 'center', p: 2.2, pt: 0 }}>
+                                    <Button 
+                                        onClick={() => navigate('/textures')} 
+                                        variant="contained"
+                                        startIcon={<PaletteOutlined sx={{ fontSize: '1.1rem' }} />}
+                                        sx={{ 
+                                            borderRadius: '17.6px',
+                                            fontWeight: 600,
+                                            px: 2.2,
+                                            py: 1.1,
+                                            fontSize: '0.88rem',
+                                            minHeight: '35.2px',
+                                        }}
+                                    >
+                                        更换
+                                    </Button>
+                                </CardActions>
+                            </AnimatedCard>
+
+                            {/* 启动器设置卡片 */}
+                            <AnimatedCard
+                                initial={{ opacity: 0, y: 22 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.4, delay: 0.33, ease: "easeOut" }}
+                                sx={{ gridArea: "c", width: '100%' }}
+                            >
+                                <CardHeader 
+                                    title={
+                                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.1 }}>
+                                            <Settings sx={{ 
+                                                color: 'primary.main',
+                                                fontSize: '1.32rem',
+                                            }} />
+                                            启动器设置
+                                        </Box>
+                                    }
+                                    sx={{ pb: 1.1 }}
+                                />
+                                <CardContent sx={{ pt: 0 }}>
+                                    <Typography sx={{ 
+                                        fontWeight: 600, 
+                                        color: 'text.secondary', 
+                                        mb: 1.1,
+                                        fontSize: '1.045rem',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        gap: 0.55,
+                                    }}>
+                                        <Code sx={{ fontSize: '1.1rem' }} />
+                                        Yggdrasil API 地址
+                                    </Typography>
+                                    
+                                    {/* API 地址显示 */}
+                                    <Box sx={{
+                                        p: 2.2,
+                                        borderRadius: '13.2px',
+                                        backgroundColor: darkMode ? 'rgba(255, 179, 0, 0.08)' : 'rgba(255, 193, 7, 0.08)',
+                                        border: darkMode ? '1px solid rgba(255, 179, 0, 0.2)' : '1px solid rgba(255, 193, 7, 0.2)',
+                                        fontFamily: 'monospace',
+                                        fontSize: '0.825rem',
+                                        wordBreak: 'break-all',
+                                        position: 'relative',
+                                        boxShadow: '0 4px 12px rgba(255, 193, 7, 0.1)',
+                                        transition: 'all 0.2s ease',
+                                        overflow: 'hidden',
+                                        '&:hover': {
+                                            boxShadow: '0 6px 16px rgba(255, 193, 7, 0.2)',
+                                        },
+                                        '&::before': {
+                                            content: '""',
+                                            position: 'absolute',
+                                            top: 0,
+                                            left: 0,
+                                            right: 0,
+                                            height: '2.2px',
+                                            background: 'linear-gradient(90deg, #ffc107, #ff9800)',
+                                        },
+                                        width: '100%',
+                                    }}>
+                                        <code style={{ 
+                                            color: darkMode ? '#ffd54f' : '#ff9800',
+                                            fontSize: '0.825rem',
+                                            fontWeight: 500,
+                                            lineHeight: 1.4,
+                                        }}>
+                                            {getYggRoot()}
+                                        </code>
+                                    </Box>
+                                    
+                                    {/* 使用提示 */}
+                                    <Typography variant="body2" sx={{ 
+                                        color: 'text.secondary', 
+                                        mt: 2.2,
+                                        fontWeight: 500,
+                                        fontSize: '0.825rem',
+                                        lineHeight: 1.4,
+                                    }}>
+                                        <Security sx={{ fontSize: '0.88rem', mr: 0.55, verticalAlign: 'middle' }} />
+                                        在启动器中使用此地址进行身份验证
+                                    </Typography>
+                                </CardContent>
+                                
+                                {/* 卡片底部按钮区域 */}
+                                <CardActions sx={{ 
+                                    p: 2.2,
+                                    pt: 0,
+                                    display: 'flex',
+                                    gap: 1.1,
+                                    justifyContent: 'center',
+                                    flexWrap: 'wrap'
+                                }}>
+                                    <Button 
+                                        draggable
+                                        onDragStart={handleDragStart}
+                                        onDragEnd={handleDragEnd}
+                                        onDrag={handleDrag}
+                                        variant="contained"
+                                        startIcon={<ContentCopy sx={{ fontSize: '0.99rem' }} />}
+                                        sx={{ 
+                                            borderRadius: '17.6px',
+                                            fontWeight: 600,
+                                            px: 2.2,
+                                            py: 1.1,
+                                            fontSize: '0.88rem',
+                                            cursor: dragging ? 'grabbing' : 'grab',
+                                            transform: dragging ? `translate(${dragOffset.x}px, ${dragOffset.y}px)` : 'none',
+                                            opacity: dragging ? 0.8 : 1,
+                                            transition: dragging ? 'none' : 'all 0.2s ease',
+                                            boxShadow: dragging ? '0 6px 20px rgba(255, 193, 7, 0.4)' : '0 2px 10px rgba(255, 193, 7, 0.3)',
+                                            width: { xs: '100%', sm: 'auto' },
+                                            minHeight: '35.2px',
+                                        }}
+                                    >
+                                        拖拽
+                                    </Button>
+                                    
+                                    <Button 
+                                        onClick={handleCopy}
+                                        variant="outlined"
+                                        startIcon={copied ? <CheckCircle sx={{ fontSize: '0.99rem' }} /> : <ContentCopy sx={{ fontSize: '0.99rem' }} />}
+                                        sx={{ 
+                                            borderRadius: '17.6px',
+                                            fontWeight: 600,
+                                            px: 2.2,
+                                            py: 1.1,
+                                            fontSize: '0.88rem',
+                                            width: { xs: '100%', sm: 'auto' },
+                                            minHeight: '35.2px',
+                                        }}
+                                    >
+                                        {copied ? '已复制' : '复制'}
+                                    </Button>
+                                </CardActions>
+                            </AnimatedCard>
+                        </Box>
+
+            
+                        {/* 底部装饰 */}
+                        <AnimatedBox
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 0.6, delay: 0.55 }}
+                            sx={{
+                                position: 'absolute',
+                                bottom: '1.1rem',
+                                left: '50%',
+                                transform: 'translateX(-50%)',
+                                zIndex: 1,
+                                px: 1.1,
+                            }}
+                        >
+                            <Typography variant="body2" sx={{
+                                color: 'text.secondary',
+                                textAlign: 'center',
                                 fontWeight: 500,
-                                fontSize: '0.95rem',
-                                lineHeight: 1.5,
+                                opacity: 0.7,
+                                maxWidth: '100%',
+                                wordBreak: 'break-word',
+                                fontSize: '0.77rem',
                             }}>
-                                <Security sx={{ fontSize: '1rem', mr: 1, verticalAlign: 'middle' }} />
-                                在启动器中使用此地址进行身份验证
+                                © 2024 Go-Skin
                             </Typography>
-                        </CardContent>
-                        
-                        {/* 卡片底部按钮区域 */}
-                        <CardActions sx={{ 
-                            p: 3,
-                            pt: 0,
-                            display: 'flex',
-                            gap: 2,
-                            justifyContent: 'center',
-                            flexWrap: 'wrap'
-                        }}>
-                            <Button 
-                                draggable
-                                onDragStart={handleDragStart}
-                                onDragEnd={handleDragEnd}
-                                onDrag={handleDrag}
-                                variant="contained"
-                                startIcon={<ContentCopy />}
-                                sx={{ 
-                                    borderRadius: '20px',
-                                    fontWeight: 700,
-                                    px: 4,
-                                    py: 1.5,
-                                    fontSize: '1rem',
-                                    cursor: dragging ? 'grabbing' : 'grab',
-                                    transform: dragging ? `translate(${dragOffset.x}px, ${dragOffset.y}px)` : 'none',
-                                    opacity: dragging ? 0.8 : 1,
-                                    transition: dragging ? 'none' : 'all 0.3s ease',
-                                    boxShadow: dragging ? '0 12px 32px rgba(255, 193, 7, 0.4)' : '0 4px 20px rgba(255, 193, 7, 0.3)',
-                                    width: { xs: '100%', sm: 'auto' }, // 小屏幕上按钮占满宽度
-                                }}
-                            >
-                                拖拽到启动器
-                            </Button>
-                            
-                            <Button 
-                                onClick={handleCopy}
-                                variant="outlined"
-                                startIcon={copied ? <CheckCircle /> : <ContentCopy />}
-                                sx={{ 
-                                    borderRadius: '20px',
-                                    fontWeight: 700,
-                                    px: 4,
-                                    py: 1.5,
-                                    fontSize: '1rem',
-                                    width: { xs: '100%', sm: 'auto' }, // 小屏幕上按钮占满宽度
-                                }}
-                            >
-                                {copied ? '已复制!' : '复制地址'}
-                            </Button>
-                        </CardActions>
-                    </AnimatedCard>
+                        </AnimatedBox>
+                    </Box>
                 </Box>
 
-    
-                {/* 底部装饰 */}
-                <AnimatedBox
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1, delay: 0.8 }}
-                    sx={{
-                        position: 'absolute',
-                        bottom: '2rem',
-                        left: '50%',
-                        transform: 'translateX(-50%)',
-                        zIndex: 1,
-                        px: 2, // 添加内边距防止文本溢出
-                    }}
-                >
-                    <Typography variant="body2" sx={{
-                        color: 'text.secondary',
-                        textAlign: 'center',
-                        fontWeight: 500,
-                        opacity: 0.7,
-                        maxWidth: '100%', // 防止文本溢出
-                        wordBreak: 'break-word', // 长单词换行
-                    }}>
-                        © 2024 Go-Skin - 专业的 Minecraft 皮肤管理平台
-                    </Typography>
-                </AnimatedBox>
+                {/* 添加浮动动画的 CSS */}
+                <style>
+                    {`
+                        @keyframes float {
+                            0%, 100% { transform: translateY(0px) rotate(0deg); }
+                            50% { transform: translateY(-11px) rotate(180deg); }
+                        }
+                        
+                        .dragging {
+                            cursor: grabbing !important;
+                        }
+                        
+                        .drag-over {
+                            background-color: rgba(255, 193, 7, 0.1) !important;
+                        }
+                    `}
+                </style>
             </Box>
-
-            {/* 添加浮动动画的 CSS */}
-            <style>
-                {`
-                    @keyframes float {
-                        0%, 100% { transform: translateY(0px) rotate(0deg); }
-                        50% { transform: translateY(-20px) rotate(180deg); }
-                    }
-                    
-                    @keyframes pulse {
-                        0%, 100% { 
-                            transform: translate(-50%, -50%) scale(1);
-                            opacity: 0.9;
-                        }
-                        50% { 
-                            transform: translate(-50%, -50%) scale(1.05);
-                            opacity: 1;
-                        }
-                    }
-                    
-                    .dragging {
-                        cursor: grabbing !important;
-                    }
-                    
-                    .drag-over {
-                        background-color: rgba(255, 193, 7, 0.1) !important;
-                    }
-                `}
-            </style>
         </ThemeProvider>
     )
 }
