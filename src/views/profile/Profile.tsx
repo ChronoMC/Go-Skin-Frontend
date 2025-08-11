@@ -590,34 +590,7 @@ const Profile = function Profile() {
                             
                             {/* 状态指示器 */}
                             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1.1, flexWrap: 'wrap', mt: 1.1, zIndex: 2, position: 'relative' }}>
-                                <Chip 
-                                    icon={<VerifiedUser sx={{ fontSize: '0.88rem !important' }} />}
-                                    label="已验证" 
-                                    color="success" 
-                                    variant="outlined"
-                                    sx={{ 
-                                        borderRadius: '13.2px',
-                                        fontWeight: 600,
-                                        borderWidth: '1px',
-                                        fontSize: '0.715rem',
-                                        height: '22px',
-                                        zIndex: 2,
-                                    }}
-                                />
-                                <Chip 
-                                    icon={<Star sx={{ fontSize: '0.88rem !important' }} />}
-                                    label="高级" 
-                                    color="warning" 
-                                    variant="outlined"
-                                    sx={{ 
-                                        borderRadius: '13.2px',
-                                        fontWeight: 600,
-                                        borderWidth: '1px',
-                                        fontSize: '0.715rem',
-                                        height: '22px',
-                                        zIndex: 2,
-                                    }}
-                                />
+                               
                             </Box>
                         </AnimatedBox>
 
