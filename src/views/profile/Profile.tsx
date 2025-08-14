@@ -360,8 +360,8 @@ const darkTheme = createTheme({
 });
 
 // 动画组件
-const AnimatedBox = motion(Box);
-const AnimatedCard = motion(Card);
+const AnimatedBox = motion.create(Box);
+const AnimatedCard = motion.create(Card);
 
 const Profile = function Profile() {
     const navigate = useNavigate();

@@ -64,3 +64,13 @@ export interface EditUser {
     is_disable?: boolean
     del_textures?: boolean
 }
+
+export interface ResetPasswordResponse {
+    id: string
+    message: string
+}
+
+export interface SendVerificationCodeResponse {
+    id: string
+    message: string
+}

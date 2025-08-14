@@ -398,8 +398,8 @@ const darkTheme = createTheme({
 });
 
 // 动画组件
-const AnimatedBox = motion(Box);
-const AnimatedPaper = motion(Paper);
+const AnimatedBox = motion.create(Box);
+const AnimatedPaper = motion.create(Paper);
 
 export default function UserAdmin() {
     useTitle("用户管理")
@@ -680,7 +680,7 @@ export default function UserAdmin() {
 }
 
 // 动画表格行组件
-const AnimatedTableRow = motion(TableRow);
+const AnimatedTableRow = motion.create(TableRow);
 
 interface MyDialogProp {
     open: boolean

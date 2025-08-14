@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import { useEffect, useState } from "react";
 import { produce } from 'immer'
 import { changeName, changePasswd, getConfig } from "@/apis/apis";
+import { validateUsername, validatePassword } from "@/utils/validation";
 import { useAtom, useAtomValue, useSetAtom } from "jotai";
 import { LayoutAlertErr, token, user } from "@/store/store";
 import Loading from "@/components/Loading";
@@ -64,11 +65,31 @@ function ChangePasswd() {
             setErr("密码不相等")
             return
         }
+        
+        // 验证新密码格式
+        if (pass.pass1 && pass.pass1 !== "") {
+            const validation = validatePassword(pass.pass1);
+            if (!validation.isValid) {
+                setErr(validation.message);
+                return;
+            }
+        }
+        
         setErr("")
     }, [pass.pass1, pass.pass2])
 
     const handelClick = () => {
         if (pass.pass1 != pass.pass2) return
+        
+        // 验证新密码格式
+        if (pass.pass1 && pass.pass1 !== "") {
+            const validation = validatePassword(pass.pass1);
+            if (!validation.isValid) {
+                setErr(validation.message);
+                return;
+            }
+        }
+        
         if (load) return
         setLoad(true)
         changePasswd(pass.old, pass.pass1, nowToken)
@@ -104,6 +125,10 @@ function ChangePasswd() {
                     label="新密码"
                     type="password"
                     required
+                    error={pass.pass1 && pass.pass1 !== "" && !validatePassword(pass.pass1).isValid}
+                    helperText={pass.pass1 && pass.pass1 !== "" && !validatePassword(pass.pass1).isValid 
+                        ? validatePassword(pass.pass1).message 
+                        : "密码至少8位，必须包含至少一个大写字母、小写字母、数字和符号"}
                     onChange={p => setPass(produce(v => { v.pass1 = p.target.value }))}
                     autoComplete="new-password"
                 />
@@ -136,6 +161,15 @@ function ChangeName() {
 
     const handelClick = () => {
         if (name == "") return
+        
+        // 验证用户名格式
+        const validation = validateUsername(name);
+        if (!validation.isValid) {
+            setErr(validation.message);
+            return;
+        }
+        
+        setErr(""); // 清除之前的错误
         setOpen(true)
     }
 
@@ -170,9 +204,22 @@ function ChangeName() {
                     type='text'
                     required
                     error={err != ""}
-                    helperText={err}
+                    helperText={err || "用户名长度在6-18位之间，只能包含大小写字母、数字、横线和下划线"}
                     value={name}
-                    onChange={v => setName(v.target.value)}
+                    onChange={v => {
+                        setName(v.target.value);
+                        // 实时验证
+                        if (v.target.value && v.target.value !== "") {
+                            const validation = validateUsername(v.target.value);
+                            if (!validation.isValid) {
+                                setErr(validation.message);
+                            } else {
+                                setErr("");
+                            }
+                        } else {
+                            setErr("");
+                        }
+                    }}
                     autoComplete="username"
                 />
                 <Button sx={{ marginTop: "1em" }} onClick={handelClick} variant='contained'>提交</Button>

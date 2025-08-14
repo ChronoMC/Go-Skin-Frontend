@@ -8,7 +8,7 @@ import {
   LockOutlined} from '@mui/icons-material';
 import { useSetAtom } from 'jotai';
 import { token, user } from '@/store/store';
-import { login } from '@/apis/apis';
+import { login, legacyLogin } from '@/apis/apis';
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Loading from '@/components/Loading';
 import CheckInput, { refType } from '@/components/CheckInput';
@@ -324,7 +324,7 @@ const darkTheme = createTheme({
 });
 
 // 动画组件
-const AnimatedBox = motion(Box);
+const AnimatedBox = motion.create(Box);
 
 export default function SignIn() {
   const [err, setErr] = useState("");
@@ -339,6 +339,7 @@ export default function SignIn() {
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [isLegacyLogin, setIsLegacyLogin] = useState(false);
   const currentTheme = darkMode ? darkTheme : lightTheme;
 
   // 监听系统主题变化
@@ -373,7 +374,8 @@ export default function SignIn() {
 
     if (loading) return
     setLoading(true)
-    login(postData.email!, postData.password ?? "", captchaToken).
+    const loginFunction = isLegacyLogin ? legacyLogin : login;
+    loginFunction(postData.email!, postData.password ?? "", captchaToken).
       then(v => {
         if (!v) return
         setToken(v.token)
@@ -465,7 +467,8 @@ export default function SignIn() {
             <Box
               sx={{
                 width: '100%',
-                p: { xs: 3, sm: 4, md: 5 },
+                p: { xs: 2, sm: 3, md: 4 },
+                pt: { xs: 1, sm: 1.5, md: 2 },
                 borderRadius: '24px',
                 backdropFilter: 'blur(12px)',
                 backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.8)',
@@ -511,7 +514,8 @@ export default function SignIn() {
                 >
                   <Avatar
                     sx={{
-                      m: 2,
+                      m: 1,
+                      mt: 0.5,
                       width: 72,
                       height: 72,
                       bgcolor: 'transparent',
@@ -546,7 +550,7 @@ export default function SignIn() {
                   component="h1"
                   variant="h5"
                   sx={{
-                    mb: 1,
+                    mb: 0.5,
                     fontWeight: 800,
                     fontSize: '1.4rem',
                     background: 'linear-gradient(to right, #ffc107, #ff9800)',
@@ -560,7 +564,7 @@ export default function SignIn() {
                 
                 <Typography variant="body2" sx={{ 
                   color: 'text.secondary',
-                  mb: 2,
+                  mb: 1,
                   textAlign: 'center',
                   maxWidth: '300px',
                   fontSize: '0.875rem',
@@ -574,7 +578,7 @@ export default function SignIn() {
                   noValidate
                   sx={{ 
                     width: '100%', 
-                    mt: 1,
+                    mt: 0.5,
                     display: 'flex',
                     flexDirection: 'column',
                     flex: '1 1 auto',
@@ -736,7 +740,7 @@ export default function SignIn() {
                       <Grid item>
                         <Link
                           component={RouterLink}
-                          to="/forgot_email"
+                          to="/send-verification-code"
                           variant="body2"
                           sx={{
                             display: 'block',
@@ -777,6 +781,52 @@ export default function SignIn() {
                         </Link>
                       </Grid>
                     </Grid>
+                    
+                    <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid', borderColor: 'divider' }}>
+                      <Typography variant="body2" sx={{ 
+                        textAlign: 'center', 
+                        mb: 1,
+                        color: 'text.secondary',
+                        fontSize: '0.75rem'
+                      }}>
+                        存量用户登录
+                      </Typography>
+                      <Grid container justifyContent="center">
+                        <Grid item>
+                          <Button
+                            onClick={() => setIsLegacyLogin(!isLegacyLogin)}
+                            variant="outlined"
+                            size="small"
+                            sx={{
+                              py: 0.5,
+                              px: 1.5,
+                              fontSize: '0.75rem',
+                              borderRadius: '8px',
+                              borderColor: isLegacyLogin ? 'primary.main' : 'rgba(255, 179, 0, 0.5)',
+                              color: isLegacyLogin ? 'primary.main' : 'text.secondary',
+                              backgroundColor: isLegacyLogin ? 'rgba(255, 179, 0, 0.1)' : 'transparent',
+                              '&:hover': {
+                                backgroundColor: 'rgba(255, 179, 0, 0.1)',
+                                borderColor: 'primary.main',
+                              },
+                            }}
+                          >
+                            {isLegacyLogin ? '使用新版登录' : '使用存量登录'}
+                          </Button>
+                        </Grid>
+                      </Grid>
+                      {isLegacyLogin && (
+                        <Typography variant="caption" sx={{ 
+                          display: 'block', 
+                          textAlign: 'center', 
+                          mt: 1,
+                          color: 'text.disabled',
+                          fontSize: '0.7rem'
+                        }}>
+                          当前使用存量用户登录接口
+                        </Typography>
+                      )}
+                    </Box>
                   </Box>
                 </Box>
               </Box>
