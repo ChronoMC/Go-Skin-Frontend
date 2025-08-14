@@ -18,8 +18,7 @@ import Loading from '@/components/Loading'
 import { useNavigate } from "react-router-dom";
 import useTitle from '@/hooks/useTitle';
 
-import { useSetAtom } from 'jotai';
-import { token, user } from '@/store/store';
+
 import { useRequest } from 'ahooks';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -423,7 +422,7 @@ export default function SignUp() {
       return
     }
       setLoading(true)
-    register(email ?? "", d.username ?? "", d.password ?? "", captchaToken, code).
+    register(email ?? "", d.username ?? "", d.password ?? "", "", code).
       then(v => {
         if (!v || !v.succeeded) return
         navigate("/login")
