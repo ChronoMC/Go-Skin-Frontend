@@ -11,13 +11,13 @@ import Container from '@mui/material/Container';
 import { Link as RouterLink } from "react-router-dom";
 import { getConfig, register } from '@/apis/apis'
 import CheckInput, { refType } from '@/components/CheckInput'
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import Loading from '@/components/Loading'
 import { useNavigate } from "react-router-dom";
 import useTitle from '@/hooks/useTitle';
-import { ApiErr } from '@/apis/error';
+
 import { useSetAtom } from 'jotai';
 import { token, user } from '@/store/store';
 import { useRequest } from 'ahooks';
@@ -357,14 +357,11 @@ export default function SignUp() {
   const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
   useTitle("注册")
-  const setToken = useSetAtom(token)
-  const setUserInfo = useSetAtom(user)
   const [code, setCode] = useState("")
   const [email, setEmail] = useState("")
   const [disableEmail, setDisableEmail] = useState(false)
   const [darkMode, setDarkMode] = useState<boolean>(false);
   const currentTheme = darkMode ? darkTheme : lightTheme;
-  const [captchaToken, setCaptchaToken] = useState<string>("");
 
   const u = new URL(location.href)
 

@@ -26,7 +26,7 @@ export async function legacyLogin(email: string, password: string, captchaToken:
     return await apiGet<tokenData>(v)
 }
 
-export async function register(email: string, username: string, password: string, captchaToken: string, code: string) {
+export async function register(email: string, username: string, password: string, _captchaToken: string, _code: string) {
     const v = await fetch("https://api.corona.studio/User/register", {
         method: "POST",
         headers: {

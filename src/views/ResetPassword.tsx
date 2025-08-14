@@ -1,8 +1,8 @@
 import { 
   Box, Button, Typography, Container,
   TextField, Grid, Avatar, 
-  Snackbar, Alert, Paper} from '@mui/material';
-import { LockOutlined, Email } from '@mui/icons-material';
+  Snackbar, Alert} from '@mui/material';
+import { Email } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import { motion } from 'framer-motion';

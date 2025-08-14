@@ -125,7 +125,7 @@ function ChangePasswd() {
                     label="新密码"
                     type="password"
                     required
-                    error={pass.pass1 && pass.pass1 !== "" && !validatePassword(pass.pass1).isValid}
+                    error={Boolean(pass.pass1 && pass.pass1 !== "" && !validatePassword(pass.pass1).isValid)}
                     helperText={pass.pass1 && pass.pass1 !== "" && !validatePassword(pass.pass1).isValid 
                         ? validatePassword(pass.pass1).message 
                         : "密码至少8位，必须包含至少一个大写字母、小写字母、数字和符号"}
