@@ -29,7 +29,7 @@ function Root() {
         <Route path="/forgot" element={<Forgot />} />
 
         {/* 需要登录的路由组 */}
-        {<Route element={<NeedLogin><Outlet /></NeedLogin>}>&rbrace;
+        {<Route element={<NeedLogin><Outlet /></NeedLogin>}>;
           <Route path="/profile" element={<Profile />} />
           <Route path="/textures" element={<Textures />} />
           <Route path="/security" element={<Security />} />
