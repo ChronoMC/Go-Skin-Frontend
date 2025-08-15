@@ -8,7 +8,7 @@ import {
   LockOutlined} from '@mui/icons-material';
 import { useSetAtom } from 'jotai';
 import { token, user } from '@/store/store';
-import { login, legacyLogin } from '@/apis/apis';
+import { login } from '@/apis/apis';
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import Loading from '@/components/Loading';
 import CheckInput, { refType } from '@/components/CheckInput';
@@ -339,7 +339,6 @@ export default function SignIn() {
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
-  const [isLegacyLogin, setIsLegacyLogin] = useState(false);
   const currentTheme = darkMode ? darkTheme : lightTheme;
 
   // 监听系统主题变化
@@ -374,7 +373,7 @@ export default function SignIn() {
 
     if (loading) return
     setLoading(true)
-    const loginFunction = isLegacyLogin ? legacyLogin : login;
+    const loginFunction = login;
     loginFunction(postData.email!, postData.password ?? "", captchaToken).
       then(v => {
         if (!v) return
@@ -782,41 +781,6 @@ export default function SignIn() {
                       </Grid>
                     </Grid>
                     
-                    <Box sx={{ mt: 2, pt: 2, borderTop: '1px solid', borderColor: 'divider' }}>
-                      <Typography variant="body2" sx={{ 
-                        textAlign: 'center', 
-                        mb: 1,
-                        color: 'text.secondary',
-                        fontSize: '0.75rem'
-                      }}>
-                      
-                      </Typography>
-                      <Grid container justifyContent="center">
-                        <Grid item>
-                          <Button
-                            onClick={() => setIsLegacyLogin(!isLegacyLogin)}
-                            variant="outlined"
-                            size="small"
-                            sx={{
-                              py: 0.5,
-                              px: 1.5,
-                              fontSize: '0.75rem',
-                              borderRadius: '8px',
-                              borderColor: isLegacyLogin ? 'primary.main' : 'rgba(255, 179, 0, 0.5)',
-                              color: isLegacyLogin ? 'primary.main' : 'text.secondary',
-                              backgroundColor: isLegacyLogin ? 'rgba(255, 179, 0, 0.1)' : 'transparent',
-                              '&:hover': {
-                                backgroundColor: 'rgba(255, 179, 0, 0.1)',
-                                borderColor: 'primary.main',
-                              },
-                            }}
-                          >
-                           
-                          </Button>
-                        </Grid>
-                      </Grid>
-                    
-                    </Box>
                   </Box>
                 </Box>
               </Box>
