@@ -1100,7 +1100,7 @@ export default function HomePage() {
                             {server.data?.NeedEmail && (
                               <Link
                                 component={RouterLink}
-                                to="/forgot_email"
+                                to="/send-verification-code"
                                 variant="body2"
                                 sx={{
                                   display: 'block',

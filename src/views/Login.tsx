@@ -324,7 +324,7 @@ const darkTheme = createTheme({
 });
 
 // 动画组件
-const AnimatedBox = motion(Box);
+const AnimatedBox = motion.create(Box);
 
 export default function SignIn() {
   const [err, setErr] = useState("");
@@ -373,7 +373,8 @@ export default function SignIn() {
 
     if (loading) return
     setLoading(true)
-    login(postData.email!, postData.password ?? "", captchaToken).
+    const loginFunction = login;
+    loginFunction(postData.email!, postData.password ?? "", captchaToken).
       then(v => {
         if (!v) return
         setToken(v.token)
@@ -465,7 +466,8 @@ export default function SignIn() {
             <Box
               sx={{
                 width: '100%',
-                p: { xs: 3, sm: 4, md: 5 },
+                p: { xs: 2, sm: 3, md: 4 },
+                pt: { xs: 1, sm: 1.5, md: 2 },
                 borderRadius: '24px',
                 backdropFilter: 'blur(12px)',
                 backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.7)' : 'rgba(255, 255, 255, 0.8)',
@@ -511,7 +513,8 @@ export default function SignIn() {
                 >
                   <Avatar
                     sx={{
-                      m: 2,
+                      m: 1,
+                      mt: 0.5,
                       width: 72,
                       height: 72,
                       bgcolor: 'transparent',
@@ -546,7 +549,7 @@ export default function SignIn() {
                   component="h1"
                   variant="h5"
                   sx={{
-                    mb: 1,
+                    mb: 0.5,
                     fontWeight: 800,
                     fontSize: '1.4rem',
                     background: 'linear-gradient(to right, #ffc107, #ff9800)',
@@ -560,7 +563,7 @@ export default function SignIn() {
                 
                 <Typography variant="body2" sx={{ 
                   color: 'text.secondary',
-                  mb: 2,
+                  mb: 1,
                   textAlign: 'center',
                   maxWidth: '300px',
                   fontSize: '0.875rem',
@@ -574,7 +577,7 @@ export default function SignIn() {
                   noValidate
                   sx={{ 
                     width: '100%', 
-                    mt: 1,
+                    mt: 0.5,
                     display: 'flex',
                     flexDirection: 'column',
                     flex: '1 1 auto',
@@ -736,7 +739,7 @@ export default function SignIn() {
                       <Grid item>
                         <Link
                           component={RouterLink}
-                          to="/forgot_email"
+                          to="/send-verification-code"
                           variant="body2"
                           sx={{
                             display: 'block',
@@ -777,6 +780,7 @@ export default function SignIn() {
                         </Link>
                       </Grid>
                     </Grid>
+                    
                   </Box>
                 </Box>
               </Box>

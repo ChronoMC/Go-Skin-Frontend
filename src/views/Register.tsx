@@ -11,17 +11,14 @@ import Container from '@mui/material/Container';
 import { Link as RouterLink } from "react-router-dom";
 import { getConfig, register } from '@/apis/apis'
 import CheckInput, { refType } from '@/components/CheckInput'
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
 import Loading from '@/components/Loading'
 import { useNavigate } from "react-router-dom";
-import CaptchaWidget from '@/components/CaptchaWidget';
-import type { refType as CaptchaWidgetRef } from '@/components/CaptchaWidget'
 import useTitle from '@/hooks/useTitle';
-import { ApiErr } from '@/apis/error';
-import { useSetAtom } from 'jotai';
-import { token, user } from '@/store/store';
+
+
 import { useRequest } from 'ahooks';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -352,17 +349,13 @@ const darkTheme = createTheme({
 });
 
 // 动画组件
-const AnimatedBox = motion(Box);
+const AnimatedBox = motion.create(Box);
 
 export default function SignUp() {
   const [regErr, setRegErr] = useState("");
   const navigate = useNavigate();
-  const [captchaToken, setCaptchaToken] = useState("");
-  const captchaRef = useRef<CaptchaWidgetRef>(null)
-  const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
   useTitle("注册")
-  const setToken = useSetAtom(token)
-  const setUserInfo = useSetAtom(user)
   const [code, setCode] = useState("")
   const [email, setEmail] = useState("")
   const [disableEmail, setDisableEmail] = useState(false)
@@ -428,38 +421,22 @@ export default function SignUp() {
     if (!Array.from(checkList.current.values()).map(v => v.verify()).reduce((p, v) => (p == true) && (v == true))) {
       return
     }
-    if (captchaToken == "") {
-      setRegErr("验证码无效")
-      return
-    }
-    setLoading(true)
-    register(email ?? "", d.username ?? "", d.password ?? "", captchaToken, code).
+      setLoading(true)
+    register(email ?? "", d.username ?? "", d.password ?? "", "", code).
       then(v => {
-        if (!v) return
-        setToken(v.token)
-        setUserInfo({
-          uuid: v.uuid,
-          name: v.name,
-        })
-        navigate("/profile")
+        if (!v || !v.succeeded) return
+        navigate("/login")
       }).
       catch(v => {
-        captchaRef.current?.reload()
         console.warn(v)
-        if (v instanceof ApiErr) {
-          switch (v.code) {
-            case 10:
-              setRegErr("验证码错误")
-              return
-            case 3:
-              setRegErr("邮箱已存在")
-              return
-            case 7:
-              setRegErr("用户名已存在")
-              return
-          }
+        const errorMessage = String(v)
+        if (errorMessage.includes("邮箱") || errorMessage.includes("email")) {
+          setRegErr("邮箱已存在")
+        } else if (errorMessage.includes("用户名") || errorMessage.includes("username")) {
+          setRegErr("用户名已存在")
+        } else {
+          setRegErr(errorMessage)
         }
-        setRegErr(String(v))
       }).
       finally(() => setLoading(false))
   };
@@ -676,8 +653,8 @@ export default function SignUp() {
                         }}
                         checkList={[
                           {
-                            errMsg: "长度在 3-16 之间",
-                            reg: /^.{3,16}$/
+                            errMsg: "用户名长度在6-18位之间，只能包含大小写字母、数字、横线和下划线",
+                            reg: /^[a-zA-Z0-9_-]{6,18}$/
                           }
                         ]}
                         required
@@ -701,8 +678,8 @@ export default function SignUp() {
                         }}
                         checkList={[
                           {
-                            errMsg: "长度在 6-50 之间",
-                            reg: /^.{6,50}$/
+                            errMsg: "密码至少8位，必须包含至少一个大写字母、小写字母、数字和符号",
+                            reg: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?])[A-Za-z\d!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{8,}$/
                           }
                         ]}
                         required
@@ -720,23 +697,7 @@ export default function SignUp() {
                         }}
                       />
                     </Grid>
-                    <Grid item xs={12}>
-                      <Box sx={{ 
-                        mt: 0.5, 
-                        mb: 0.5, 
-                        height: '60px',
-                        display: 'flex',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                      }}>
-                        <CaptchaWidget 
-                          ref={captchaRef} 
-                          onSuccess={setCaptchaToken}
-                          hideRefreshButton={true}
-                        />
-                      </Box>
                     </Grid>
-                  </Grid>
                   
                   <Box sx={{ 
                     flex: '0 0 auto',

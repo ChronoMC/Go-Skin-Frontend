@@ -337,8 +337,9 @@ const darkTheme = createTheme({
 // 动画组件
 const AnimatedBox = motion(Box);
 
-export default function SendEmail({ title, anyEmail = false, sendService }: { title: string, anyEmail?: boolean, sendService: (email: string, captchaToken: string) => Promise<unknown> }) {
+export default function SendEmail({ title, anyEmail = false, sendService }: { title: string, anyEmail?: boolean, sendService: (email: string, captchaToken: string) => Promise<any> }) {
   const [err, setErr] = useState("");
+  const [success, setSuccess] = useState("");
   const [domain, setDomain] = useState("");
   const [email, setEmail] = useState("")
   const captchaRef = useRef<CaptchaWidgetRef>(null)
@@ -417,7 +418,14 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
       return
     }
     setLoading(true)
-    sendService(sendEmail, captchaToken).then(() => setOpen(true)).catch(e => {
+    sendService(sendEmail, captchaToken).then((response) => {
+      // 处理API响应
+      if (response && response.message) {
+        setSuccess(response.message);
+      } else {
+        setOpen(true);
+      }
+    }).catch(e => {
       captchaRef.current?.reload()
       console.warn(e)
       if (e instanceof ApiErr) {
@@ -700,6 +708,30 @@ export default function SendEmail({ title, anyEmail = false, sendService }: { ti
               }}
             >
               {err}
+            </Alert>
+          </Snackbar>
+          
+          <Snackbar
+            open={success !== ""}
+            autoHideDuration={6000}
+            onClose={() => setSuccess("")}
+            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+            sx={{ mt: 2 }}
+            TransitionComponent={Slide}
+          >
+            <Alert
+              onClose={() => setSuccess("")}
+              severity="success"
+              sx={{ 
+                width: '100%',
+                backdropFilter: 'blur(10px)',
+                backgroundColor: darkMode ? 'rgba(33, 33, 33, 0.9)' : 'rgba(255, 255, 255, 0.9)',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.08)',
+                borderRadius: '12px',
+                color: darkMode ? '#f5f5f5' : '#212121'
+              }}
+            >
+              {success}
             </Alert>
           </Snackbar>
           

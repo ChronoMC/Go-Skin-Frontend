@@ -265,7 +265,7 @@ const darkTheme = createTheme({
 });
 
 // 动画组件
-const AnimatedBox = motion(Box);
+const AnimatedBox = motion.create(Box);
 
 export default function NotFoundPage() {
   const navigate = useNavigate();

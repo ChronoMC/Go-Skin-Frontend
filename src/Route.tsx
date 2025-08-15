@@ -8,8 +8,9 @@ import Security from '@/views/profile/Security'
 import UserAdmin from "@/views/admin/UserAdmin";
 import NeedLogin from "@/components/NeedLogin";
 import SendEmail from "@/views/SendEmail";
-import { sendForgotEmail, sendRegEmail } from "@/apis/apis";
+import { sendForgotEmail, sendRegEmail, sendVerificationCode } from "@/apis/apis";
 import Forgot from "@/views/Forgot";
+import ResetPassword from "@/views/ResetPassword";
 import HomePage from "@/views/HomePage";
 import Error from "@/views/Error";
 
@@ -26,7 +27,9 @@ function Root() {
         <Route path="/register" element={<Register />} />
         <Route path="/register_email" element={<SendEmail title="注册" sendService={sendRegEmail} />} />
         <Route path="/forgot_email" element={<SendEmail title="重设密码" anyEmail sendService={sendForgotEmail} />} />
+        <Route path="/send-verification-code" element={<SendEmail title="发送验证码" anyEmail sendService={sendVerificationCode} />} />
         <Route path="/forgot" element={<Forgot />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
         {/* 需要登录的路由组 */}
         {<Route element={<NeedLogin><Outlet /></NeedLogin>}>;

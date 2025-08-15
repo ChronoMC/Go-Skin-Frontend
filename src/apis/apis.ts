@@ -1,9 +1,9 @@
-import type { tokenData, ApiUser, YggProfile, ApiConfig, List, UserInfo, EditUser } from '@/apis/model'
+import type { tokenData, ApiUser, YggProfile, ApiConfig, List, UserInfo, EditUser, ResetPasswordResponse, SendVerificationCodeResponse } from '@/apis/model'
 import { apiGet } from '@/apis/utils'
 import root from '@/utils/root'
 
 export async function login(email: string, password: string, captchaToken: string) {
-    const v = await fetch(root() + "/api/v1/user/login", {
+    const v = await fetch(root() + "/api/v1/user/coronaac/login", {
         method: "POST",
         body: JSON.stringify({
             "email": email,
@@ -14,18 +14,30 @@ export async function login(email: string, password: string, captchaToken: strin
     return await apiGet<tokenData>(v)
 }
 
-export async function register(email: string, username: string, password: string, captchaToken: string, code: string) {
-    const v = await fetch(root() + "/api/v1/user/reg", {
+
+export async function register(email: string, username: string, password: string, _captchaToken: string, _code: string) {
+    const v = await fetch("https://api.corona.studio/User/register", {
         method: "POST",
+        headers: {
+            "accept": "*/*",
+            "accept-language": "zh-CN,zh;q=0.9",
+            "content-type": "application/json",
+            "priority": "u=1, i"
+        },
         body: JSON.stringify({
-            "Email": email,
-            "Password": password,
-            "Name": username,
-            "CaptchaToken": captchaToken,
-            "EmailJwt": code,
+            "email": email,
+            "password": password,
+            "username": username
         })
     })
-    return await apiGet<tokenData>(v)
+    const response = await v.json()
+    if (!v.ok) {
+        throw new Error(response?.title || "Registration failed")
+    }
+    if (!response.succeeded) {
+        throw new Error(response.errors?.join(", ") || "Registration failed")
+    }
+    return response
 }
 
 export async function userInfo(token: string) {
@@ -142,6 +154,23 @@ export async function sendForgotEmail(email: string, captchaToken: string) {
     return await apiGet<unknown>(r)
 }
 
+export async function sendVerificationCode(email: string, token: string) {
+    const u = new URL("https://api.corona.studio/User/pwd/reset")
+    u.searchParams.set("email", email)
+    
+    const r = await fetch(u.toString(), {
+        method: "GET",
+        headers: {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9",
+            "content-type": "application/json",
+            "priority": "u=1, i",
+            "Authorization": `Bearer ${token}`
+        }
+    })
+    return await apiGet<SendVerificationCodeResponse>(r)
+}
+
 
 export async function forgotPassWord(email: string, emailJwt: string, password: string) {
     const r = await fetch(root() + "/api/v1/user/forgot", {
@@ -153,4 +182,21 @@ export async function forgotPassWord(email: string, emailJwt: string, password: 
         })
     })
     return await apiGet<unknown>(r)
+}
+
+export async function resetPassword(email: string, token: string) {
+    const u = new URL("https://api.corona.studio/User/pwd/reset")
+    u.searchParams.set("email", email)
+    
+    const r = await fetch(u.toString(), {
+        method: "GET",
+        headers: {
+            "accept": "application/json, text/plain, */*",
+            "accept-language": "zh-CN,zh;q=0.9",
+            "content-type": "application/json",
+            "priority": "u=1, i",
+            "Authorization": `Bearer ${token}`
+        }
+    })
+    return await apiGet<ResetPasswordResponse>(r)
 }
