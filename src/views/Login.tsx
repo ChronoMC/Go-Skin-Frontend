@@ -789,7 +789,7 @@ export default function SignIn() {
                         color: 'text.secondary',
                         fontSize: '0.75rem'
                       }}>
-                        存量用户登录
+                      
                       </Typography>
                       <Grid container justifyContent="center">
                         <Grid item>
@@ -811,21 +811,11 @@ export default function SignIn() {
                               },
                             }}
                           >
-                            {isLegacyLogin ? '使用新版登录' : '使用存量登录'}
+                           
                           </Button>
                         </Grid>
                       </Grid>
-                      {isLegacyLogin && (
-                        <Typography variant="caption" sx={{ 
-                          display: 'block', 
-                          textAlign: 'center', 
-                          mt: 1,
-                          color: 'text.disabled',
-                          fontSize: '0.7rem'
-                        }}>
-                          当前使用存量用户登录接口
-                        </Typography>
-                      )}
+                    
                     </Box>
                   </Box>
                 </Box>
